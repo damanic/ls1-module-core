@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title><?= strlen($this->app_page_title) ? $this->app_page_title.' | ' : null ?> LemonStand</title>
+		<? $this->renderLayout(PATH_APP.'/modules/backend/layouts/config_urls.htm') ?>
+		<link rel="stylesheet" href="modules/backend/resources/css/backend.css" type="text/css"/>
+		<link rel="stylesheet" href="modules/session/resources/css/session.css" type="text/css"/>
+		<link type="text/css" href="phproad/modules/db/behaviors/db_formbehavior/resources/css/forms.css" rel="stylesheet"/>
+		<link type="text/css" href="phproad/resources/css/phproad.css" rel="stylesheet"/>
+		<?= Phpr_View::includeJavaScript() ?>
+		<?= $this->loadResources() ?>
+		<script type="text/javascript" src="modules/session/resources/javascript/session.js"></script>
+		<?= Phpr_View::block("head") ?>
+	</head>
+	<body>
+		<div id="content">
+		<!--[if IE]><fieldset class="ie_fix"><![endif]-->
+		<?= Phpr_View::block("view") ?>
+		<!--[if IE]></fieldset><![endif]-->
+		</div>
+	</body>
+</html>

@@ -1,0 +1,1 @@
+alter table core_configuration_records modify record_code varchar(150);

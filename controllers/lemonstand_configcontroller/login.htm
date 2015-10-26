@@ -1,0 +1,53 @@
+<? Phpr_View::beginBlock("head") ?>
+	<script type="text/javascript" src="modules/core/resources/javascript/config_login.js"></script>
+<? Phpr_View::endBlock() ?>
+
+<? Phpr_View::beginBlock("view") ?>
+	<?= Phpr_Form::openTag() ?>
+		<div class="form">
+			
+			<div id="wrapper">
+				<div id="wrapper_content">
+					<h1 class="title">LemonStand</h1>
+					<div id="form_wrapper">
+						<h2>Configuration Tool Login</h2>
+						<div class="formContainer round">
+							<div id="formContent" class="relative">
+								<? if (Phpr::$config->get('LOGIN_MESSAGE')): ?>
+									<p class="warning"><?= Phpr::$config->get('LOGIN_MESSAGE') ?></p>
+								<? endif ?>
+					
+								<div class="formFlash"></div>
+					
+								<ul class="formElements">
+									<li class="field text full">
+										<label for="login">User Name</label>
+										<div class="fieldContainer"><input type="text" id="login" name="login" value=""/></div>
+									</li>
+
+									<li class="field text full">
+										<label for="password">Password</label>
+										<div class="fieldContainer"><input value="" type="password" id="password" name="password"/></div>
+									</li>
+
+									<li class="buttons">
+										<a class="fancy_button" href="#" onclick="return submit_login()">Login »</a>
+							
+										<div class="clear"></div>
+									</li>
+								</ul>
+							</div>
+							<div class="lt"></div>
+							<div class="rt"></div>
+							<div class="lb"></div>
+							<div class="rb"></div>
+						</div>
+						<div class="clear"></div>
+						<p class="copyright"><a href="http://lemonstand.com" target="_blank">LemonStand</a> is a product by LemonStand eCommerce Inc.<br/>Copyright &copy; <?= date('Y') ?> LemonStand eCommerce Inc. All Rights Reserved.</p>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</form>
+<? Phpr_View::endBlock() ?>

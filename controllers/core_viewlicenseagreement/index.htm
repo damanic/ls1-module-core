@@ -1,0 +1,40 @@
+<? Phpr_View::beginBlock("head") ?>
+	<link rel="stylesheet" href="modules/core/resources/css/core.css?<?= module_build('core') ?>" type="text/css"/>
+<? Phpr_View::endBlock() ?>
+
+<? Phpr_View::beginBlock("view") ?>
+	<ul class="breadcrumbs">
+		<li><a href="<?= url('/system/settings') ?>">Settings</a></li>
+		<li><?= $this->app_page_title ?></li>
+	</ul>
+	
+	<?= flash() ?>
+	
+	<? if (!isset($fatalError)): ?>
+		<? if ($eula_info->accepted_on): ?>
+			<div class="scoreboardReport">
+				<ul>
+					<li <? if (!$accepted_user_name): ?>class="last"<? endif ?>>
+						<h3>Last update</h3>
+						<p><?= Phpr_Date::display($eula_info->accepted_on) ?></p>
+					</li>
+					<? if ($accepted_user_name): ?>
+						<li class="last">
+							<h3>Accepted by</h3>
+							<p><?= h($accepted_user_name) ?></p>
+						</li>
+					<? endif ?>
+				</ul>
+				<div class="clear"></div>
+			</div>
+		<? endif ?>
+		
+		<div class="license-agreement align-left-top">
+			<p class="agreement-content"><?= nl2br(h($eula_info->agreement_text)) ?></p>
+		</div>
+		
+		<?= backend_button('Close', array('href'=>url('system/settings'))) ?>
+	<? else: ?>
+		<p><a href="<?= url('/system/settings') ?>">Return to the settings page</a></p>
+	<? endif ?>
+<? Phpr_View::endBlock() ?>

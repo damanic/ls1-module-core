@@ -1,0 +1,459 @@
+#1 Created universal configuration features
+#2 Better error handling in ZIP operations
+#3 Minor fix in the IP address detection code
+#4 Minor fix in the table structure caching code
+#5 Minor fix in the security framework
+#6 Minor fix in .htaccess file
+#7 Resource directories are not under version control anymore
+#8 Increased the timeout value for the update operations
+#9 Minor fix in the security framework
+#10 Minor fixes in the class loader
+#11 Added PNG support for the uploaded images
+#12 AJAX disabled on the login form
+#13 Minor fixes in the base classes
+#14 Minor fix in the restore feature
+#15 Minor fixes in the base classes
+#16 Added available updates automatic checking
+#17 SMTP custom port support in the email API
+#18 Minor changes in the .htaccess file and date settings
+#19 Minor changes in the .htaccess file
+#20 Minor improvements in the base classes
+#21 Fixed minor error in the date/time format functions
+#22 Minor improvements in the XML classes
+#23 Minor fixes in the core classes
+#24 Subdirectories support 
+#25 Minor updates in the Configuration Tool
+#26 PHP 5.3.x compatibility
+#27 Minor fixes in the subdirectories support 
+#28 Command-line update feature added
+#29 Minor changes in the mailing classes
+#30 Minor improvements in the user interface
+#31 Minor fixes in the base classes
+#32 Minor improvements in the base classes
+#33 Minor extensions in the base classes
+#34 Completely reworked error handling technique 
+#35 Minor improvements in the base classes
+#36 Minor improvements in the base classes
+#37 Minor improvements in the base classes
+#38 Solved the issue with the public access to uploaded images 
+#39 Added some programming options to the database classes
+#40 Minor improvements in the base classes
+#41 Fixed the "Invalid characters in the input data key" error
+#42 Fixed the port detection in some server environments
+#43 Fixed the routing issue which was causing bugs with some LemonStand installation locations
+#44 Improved the proxy servers compatibility
+#45 Fixed some bugs in the LemonStand update feature
+#46 Fixed the magic quotes problem
+#47 Minor improvements in the front-end JavaScript framework
+#48 Fixed bug with deleting the ZLIB output handler
+#49 Integrated the CodeMirror syntax highlighter
+#50 Fixed a minor bug which sometimes triggers the "Uninitialized string offset:  -1" error on the front-end
+#51 Minor improvements in the CMS import/export feature
+#52 Added the image sorting feature
+#53 Some hosting environments compatibility issues fixed
+#54 Memory management and SQL optimization
+#55 Minor fix in the update feature
+#56 Minor improvement in the base classes
+#57 Added the Select All/None feature for the checkbox list controls
+#58 Minor improvements in the form engine
+#59 Added the currency formatting support in the Administration Area
+#60 Fixed the database table description cache error, which was causing multiple messages in the error log
+#61 Minor fix in the security framework
+#62 Minor update in the core classes
+#63 Fixed the session information loss during the HTTP/HTTPS switching
+#64 Improved the Tab key behavior in the code editors. Pressing the tab key indents the current line (or selection), pressing shift-tab, un-indents it.
+#65 Minor fix in the core database classes
+#66 Improved session management
+#67 Minor improvement in the Administration Area user interface
+#68 Minor improvements in the base classes
+#69 Minor updates in the base classes
+#70 Minor updates in the base classes
+#71 Minor updates in the base classes
+#72 Flash uploader now displays a loading indicator until the Flash component is ready
+#73 Improvements in the form rendering engine
+#74 Minor fix in the Phpr_Request::getRootUrl() method
+#75 Minor fix in the Phpr_Request::getRootUrl() method
+#76 Minor optimization in the list and report filtering feature
+#77 Added autocompleter JavaScript control (Administration Area)
+#78 New features and improvements in the grid control (Administration Area)
+#79 Improvements in the Grid form control
+#80 Minor improvements on the Login page
+#81 Minor improvements on the Login page
+#82 Minor improvements on the Login page
+#83 Fixed a bug on the Configuration Tool login page
+#84 Improvements in the Administration Area JavaScript framework
+#85 Added separate file and folder permission masks support: FILE_PERMISSIONS and FOLDER_PERMISSIONS parameters in the config.php file
+#86 Minor improvements in the front-end security
+#87 Minor improvements in the base classes
+#88 API update: added the get_parents() method to the Db_Act_As_Tree model extension class
+#89 Minor update in the base API classes
+#90 Minor update in the base XML classes
+#91 Minor update in the base classes
+#92 Minor update in the database structure caching strategy
+#93 Minor improvement in the access point processing code
+#94 Minor improvements in the base classes
+#95 Increased the script execution time limit for the software update operation
+#96 Minor improvements in the base classes
+#97 API update - the front-end security class now allows to log customers into the front-store in background, by calling the Phpr::$frontend_security->customerLogin($customer_id) method.
+#99 Minor update in the Configuration Tool user interface
+#100 Minor improvements in the form API 
+#101 Minor update in the JavaScript redirection method
+#102 Minor update in the base classes
+#103 Minor fix in the software update feature
+#104 Minor update in the access point API
+#105 The Tab key in the Administration Area text areas now moves focus to a next element
+#106 Added the MYSQL_PERSISTENT configuration option. It allows to disable the persistent database connection mode.
+#107 Minor improvements in the base classes
+#108 Minor improvements in the base classes
+#109 Minor improvements in the base classes
+#110 Minor improvements in the base classes
+#111 Minor improvements in the base classes
+#112 Minor improvements in the base classes
+#113 Minor updates in the user Administration Area interface
+#114 Minor improvements in the base classes
+#115 Minor improvements in the base classes
+#116 Minor improvements in the base classes
+#117 Fixed a bug in the database structure caching code
+#118 Updated error logging feature in order to prevent the endless recursion which sometimes occurs when the MySQL connection drops
+#119 Minor improvements in the base classes
+#120 Minor improvements in the base classes
+#121 Added the "Freeze Updates" feature
+#122 Minor fix in the grid control
+#123 Minor update in the Configuration Tool
+#124 Minor improvements in the base classes
+#125 Minor improvements in the base classes
+#126 Minor improvements in the base classes
+#127 Improved exception handling in the page controller
+#128 Minor improvements in the base classes
+#129 Minor improvements in the base classes
+#130 Minor improvements in the software update feature
+#131 Minor improvements in the software update feature
+#132 Added login message for Internet Explorer
+#133 Extension in the front-end JavaScript framework. Added the onAfterAjaxUpdate event for the window object.
+#134 Minor improvements in the base classes
+#135 Technology update
+#136 Added new method to the Phpr_Request class: post_array_item()
+#137 Minor update in the base classes
+#138 Minor update in the base classes
+#139 Minor update in the base classes
+#140 Minor update in the base classes
+#141 Minor update in the base classes
+#142 Minor update in the base classes
+#143 Minor updates in the files API
+#144 Removed the link to Limewheel Creative Inc. in the Configuration Tool footer
+#145 Minor update in the base classes
+#146 Fixed the email address validation rule
+#147 Added new configuration parameter: REQUEST_PARAM_NAME
+#148 Minor update in the base classes
+#149 Minor update in the base classes
+#150 Minor update in the base classes
+#151 Minor update in the base classes
+#152 Now you can configure the number of records displayed, per page, of various lists in the Administration Area
+#153 Minor fix in the ActiveRecord class
+#154 Updated TinyMCE editor
+#155 Minor update in the base classes
+#156 Minor update in the base classes
+#157 Minor update in the base classes
+#158 Performance improvements in the base classes
+#159 Minor fix in the base classes
+#160 Some performance improvements
+#161 Minor fix in the base classes
+#162 Minor update in the base classes
+#163 Minor update in the base classes
+#164 Minor update in the base classes
+#165 Minor update in the base classes
+#166 Minor update in the base classes
+#167 Minor update in the base classes
+#168 Minor update in the base classes
+#169 Fixed a bug with saving TinyMCE data in popup windows
+#170 Minor update in the base classes
+#171 Minor update in the base classes
+#172 Minor update in the base classes
+#173 Minor update in the base classes
+#174 Minor update in the base classes
+#175 Technology update
+#176 Improved magic quotes handling
+#177 Fixed a minor issue in the image processing library
+#178 Minor update in the base classes
+#179 Update in the Db_ActiveRecord class - added the before_fetch() method support
+#180 Technology update
+#181 Minor update in the JavaScript framework
+#182 Minor update in the base classes
+#183 Fixed a minor bug in the command-line mode detection code
+#184 Minor fix in the Australia dates localization file
+#185 Minor improvements in the resource request processing
+#186 Minor updates in the Configuration Tool
+#188 Improvements in the proxy server support
+#189 Minor update in the base classes
+#190 Performance improvements in the form grid control
+#191 Minor update in the base classes
+#192 Minor fix in the ActiveRecord default_sort implementation
+#194 Minor update in the base classes
+#195 Improved ImageMagick error messages
+#196 Added ls_core_jquery alias for the js_combine controller's method
+#197 Fixed a minor bug in the form validation class
+#198 Fix in the core repository
+#199 Minor update in the code comments
+#200 Minor update in the base classes
+#201 Technology update
+#202 Improvements in the security
+#203 API update: added the core:on_null event handler
+#204 Improvements in the image processing features
+#205 Minor improvements in the user interface
+#206 Minor improvements in the user interface
+#207 Improvements in the memory management. IMPORTANT! Please read this forum topic before update: http://forum.lemonstandapp.com/post/5819/
+#208 Fixed form validation
+#209 Fixed a minor bug in the Administration Area user permissions implementation
+#210 Caching API added
+#211 Added image title support for uploadable images
+#212 Minor fix in the software update feature
+#213 Minor fix in the front-end security implementation 
+#214 Minor update in the Email class - modules now can pass custom data to the core:onSendEmail event
+#215 Minor updates in the API
+#216 Minor update in the API
+#217 Minor update in the API
+#218 Minor update in the base classes
+#219 Minor update in the base classes
+#220 Minor update in the base classes; minor security improvement.
+#221 Minor update in the base classes
+#222 Minor security update
+#223 Minor update in the base classes
+#224 Minor update on the Login form
+#225 Minor update in the form validation class
+#226 Updated TinyMCE editor
+#227 Minor update in the Login form
+#228 Added new API event: core:onBeforeDatabaseConnect
+#229 Added the AUTO_CHECK_UPDATES configuration option. Documentation: http://lemonstandapp.com/docs/lemonstand_configuration_options/
+#230 Added some database indexes
+#231 Added new email variable: {recipient_email}
+#232 Minor improvement in the license management
+#233 Minor fix in the file caching
+#234 Improvements in the session management
+#235 Minor fix in the forms framework
+#236 Minor improvement in the API
+#237 Added automatic CMYK to RGB conversion for JPEG images
+#238 Minor improvement in the base classes
+#239 Added the anonymous usage statistics feature
+#240 Minor update in the base classes
+#241 Minor update in the base classes
+#242 Minor update in the base classes
+#243 Event core:onDatabaseQuery has been renamed to core:onBeforeDatabaseQuery, added new event core:onAfterDatabaseQuery
+#244 Minor update in the front-end MooTools and jQuery libraries
+#245 Added the DISABLE_MODULES configuration option. Documentation: http://lemonstandapp.com/docs/lemonstand_configuration_options/
+#246 Added new API event - core:onUninitialize
+#247 Minor update in the core:onAfterDatabaseQuery event. Minor updates in the request class.
+#248 Technology update
+#249 Minor update in the base classes
+#250|1.2.50 Update in the version numbering
+#251|1.2.51 Minor Administration Area UI improvement
+#252|1.2.52 Minor update in the base classes
+#253|1.2.53 Minor update in the base classes
+#254|1.2.54 Added new API event: core:onFileBeforeCreate
+#255|1.2.55 Minor update in the base classes
+#256|1.2.56 Minor update in the base classes
+#257|1.2.57 Minor update in the base classes
+#258|1.2.58 Minor fix in the base classes
+#259|1.2.59 Minor fix in the automatic customer login function (fixes the empty_cart feature behavior during the checkout).
+#260|1.2.60 Fixed the HTTP sub-request function for LemonStand copies installed into subdirectories
+#261|1.2.61 Minor update in the application controller
+#262|1.2.62 Minor update in the base classes
+#263|1.2.63 Minor fix in the ActiveRecord class
+#264|1.2.64 Minor update in the base classes
+#265|1.2.65 Minor update in the base classes
+#266|1.2.66 Minor update in the base classes
+#267|1.2.67 Numeric field now supports leading zero as optional. Improved the class loading code.
+#268|1.2.68 Improvements in the base classes
+#269|1.2.69 Improved memory management in the CSV Export operations
+#270|1.2.70 Minor update in the base classes
+#271|1.2.71 Minor fix in the base classes
+#272|1.2.72 Minor fix in the Grid Control
+#273|1.2.73 Technology update
+#274|1.2.74 Minor update in the API
+#275|1.2.75 Minor update in the API
+#276|1.2.76 Minor fix in the base classes
+#277|1.2.77 Added the dummy cache class
+#278|1.2.78 Security update
+#279|1.2.79 Technology update
+#280|1.2.80 Minor fix on the Login page. Multiple performance improvements.
+#281|1.2.81 Minor fix in the Filter Behavior.
+#282|1.2.82 Minor update in the base classes
+#283|1.2.83 Minor fix in the base classes
+#284|1.2.84 Minor improvement in the resource combiner
+#285|1.2.85 Minor update in the base classes
+#286|1.2.86 Technology update
+#287|1.2.87 Minor update in the base classes
+#288|1.2.88 Added new API event: cms:onPageNotFound
+#289|1.2.89 Minor fix in the XML processing code
+#290|1.2.90 Minor fix in the base classes
+#291|1.2.91 Minor improvement in the data CSV export
+#292|1.2.92 Minor improvement in the base classes
+#293|1.2.93 Security update
+#294|1.2.95 Minor improvement in the base classes
+#296|1.2.96 Minor improvement in the base classes
+#297|1.2.97 Minor fix in the base classes
+#298|1.2.98 Performance improvements
+#299|1.2.99 Minor improvement in the base classes
+#300|1.3.0 Minor improvement in the base classes
+#301|1.3.1 Minor fix in the base classes
+#302|1.3.2 Minor fix in the base classes. Updated TinyMCE.
+#303|1.3.3 Minor fix in the RSS generator.
+#304|1.3.4 Minor fix in the base classes.
+#305|1.3.5 Minor improvements in the base classes
+#306|1.3.6 Technology update
+#1.3.7 Security update
+#1.3.8 Minor improvement in the module management.
+#1.3.9 Minor improvement in the module management.
+#1.3.10 Minor improvement in the base classes.
+#1.3.11 Minor fix in the base classes.
+#1.4.0 Added new API events: core:onAfterSoftwareUpdateRequest, core:onBeforeSoftwareUpdate, core:onAfterSoftwareUpdate.
+#1.4.1 Minor improvements in the base classes.
+#1.4.2 Minor improvements in the base classes.
+#1.4.3 Minor improvements in the base classes.
+#1.4.4 Minor improvement in the error handling.
+#1.5.0 Improvements in the module management.
+#1.5.1 Minor fix in the base classes.
+#1.5.2 Minor fix in the base classes.
+#1.5.3 Minor fix in the module manager class.
+#1.5.4 Security update.
+#1.5.5 Minor update in the base classes.
+#1.5.6 Minor performance update in Grid control.
+#1.5.7 Minor update in the base classes.
+#1.5.8 Minor fix in the application updater class.
+#1.5.9 Minor improvements in the base classes.
+#1.5.10 Minor JavaScript fix on the Login page.
+#1.5.11 Minor improvements in the base classes.
+#1.5.12 Minor improvements in the base classes.
+#1.5.13 Minor improvements in the base classes.
+#1.5.14 Added core:onLogout event.
+#1.5.15 Minor fix in the Configuration Tool user interface.
+#1.5.16 Minor improvement in the back-end list search function.
+#1.5.17 Usability improvements in the Administration Area.
+#1.5.18 Minor update in the base classes.
+#1.5.19 Minor update in the base classes.
+#1.5.20 Minor usability improvements. Minor update in the base classes.
+#1.5.21 Minor update in the base classes.
+#1.5.22 Minor update in the base classes.
+#1.6.0 Security improvements in the resource combiner.
+#1.7.0 Added settings API.
+#1.7.1|@ddadb28 Minor fix in the base classes.
+#1.7.2|@29a728f Improvements in the base classes.
+#1.7.3 Improvements in the base classes.
+#1.7.4 Minor fix in the base classes.
+#1.7.5 Minor fix in the base classes.
+#1.7.6 Minor fix in the system update class. Fixed resource combining on Windows.
+#1.7.7 Minor improvement in the base classes.
+#1.8.0 Improvements in the error logging.
+#1.8.1 Minor fix in the base classes.
+#1.8.2 Minor fix in the resource combiner.
+#1.8.3 Minor fix in the database table description caching.
+#1.8.4 Minor fix in the base classes.
+#1.8.5 Minor update in the base classes.
+#1.8.6 Minor update in the base classes.
+#1.8.7 Minor improvements in the error handling.
+#1.9.0 Added automatic error log cleaning feature. Added ERROR_LOG_TTL configuration parameter.
+#1.9.1 Minor fix in the RSS output format
+#1.10.0 Added Twig library. Multiple improvements in the base classes.
+#1.10.1 Added new Twig filter: unset
+#1.10.2 Added new Twig filter: repeat. Minor fix in the base classes.
+#1.10.3 Minor update in the base classes.
+#1.10.4 Minor update in the base classes.
+#1.10.5 Minor fix in the base classes.
+#1.10.6 Minor fix in the base classes.
+#1.10.7 Minor fix in the base classes.
+#1.11.0 Multiple improvements in the base classes. Optimized memory management.
+#1.11.1 Minor fix in the Grid form control.
+#1.11.2 Added new configuration parameter: TINYMCE_ENTITY_ENCODING
+#1.11.3 Minor fix in the base classes.
+#1.11.4 Minor fix in the base classes.
+#1.11.5 Minor fix in the caching API.
+#1.11.6 Minor fix in the update files.
+#1.11.7 Minor fix in the resource combiner.
+#1.11.8 Minor fix in the base classes.
+#1.11.9 Minor fix in the base classes.
+#1.11.10 Fixed a minor bug in the configuration class.
+#1.11.11 Added support for symbolic links in resource directories (RESOURCE_SYMLINKS configuration parameter)
+#1.11.12 Added new configuration parameter: IMAGE_JPEG_COLORSPACE
+#1.11.13 Minor improvement in the base classes
+#1.11.14 Minor fix in the base classes
+#1.11.15 Minor improvement in the command-line interface
+#1.11.16 Minor fix in the email classes
+#1.11.17 Minor fix in the internal classes
+#1.11.18 Performance update
+#1.11.19 Minor improvements in the internal classes
+#1.11.20 Minor fix in the grid widget
+#1.11.21 Implemented date-time form field widget
+#1.11.22 Minor improvement in the internal classes
+#1.11.23 Minor fix in the core classes
+#1.11.24 Minor update in the core classes
+#1.11.25 Performance update
+#1.11.26 Minor update in the core classes
+#1.11.27 Minor fix in the core classes
+#1.11.28 Minor update in the core classes
+#1.11.29 Minor fix in the core classes
+#1.11.30 Added inline code documentation
+#1.11.31 Minor update in the internal classes
+#1.11.32 Minor fix in the internal classes
+#1.11.33 Minor update in the internal classes
+#1.11.34 Minor fix in the internal classes
+#1.11.35 Technology update
+#1.11.36 Minor fix in the internal classes
+#1.11.37 Minor fix in the internal classes
+#1.11.38 Minor fix in the internal classes
+#1.11.39 Minor fix in the internal classes
+#1.11.40 Minor improvements in the internal classes
+#1.11.41 Minor improvements in the internal classes
+#1.11.42 Minor improvements in the internal classes
+#1.11.43 Minor fix in the internal classes
+#1.11.44 Minor improvements in the internal classes
+#1.11.45 Minor improvements in the internal classes
+#1.11.46 Minor fix in the internal classes
+#1.11.47 Minor fix in the internal classes. Fixed the password restore feature in the Administration Area.
+#1.11.48 Minor improvements in the internal classes
+#1.11.50 Minor fix in the internal classes
+#1.11.51 Minor improvements in the internal classes
+#1.11.52 Minor fix in the Form Preview styling
+#1.11.53 Added support for the Internet Explorer 9 in the Administration Area
+#1.11.54 Minor fix in the internal classes
+#1.11.55 Minor update in the email API
+#1.11.56 Minor security fix
+#1.11.57 Minor fix in the module management
+#1.11.58 Minor improvement in the base classes
+#1.11.59 Security update
+#1.11.60 Fixed the Configuration Tool login form
+#1.11.61 Minor improvement in the API
+#1.11.62 Security update
+#1.11.63 Minor fix on the login page
+#1.11.64 Added new API event: onFrontEndLogout
+#1.11.65 Minor fix in the internal classes
+#1.11.66 Minor fix in the internal classes
+#1.11.67 Minor fix in the file caching class
+#1.11.68 Minor fix in the internal classes
+#1.11.69 Minor fix in the internal classes
+#1.11.70 Minor fix in the internal classes
+#1.11.71 Added new configuration parameter: DISABLE_CSV_CURRENCY_FORMATTING
+#1.11.72 Added new configuration paramter: SECURE_COOKIES
+#1.11.73 Increased timeout in the software update operations
+#1.11.74 Minor improvements in the internal classes.
+#1.11.75 Added new API events: core:onBeforeEmailSendToTeam, core:onAfterEmailSendToTeam. Improvements in the internal API.
+#1.11.76 Minor improvements in the email API.
+#1.11.77 Minor improvements in image processing functions. Added new API events: core:onAfterRenderListTable, core:onAfterRenderListPagination
+#1.11.78 Added new configuration paraneter: GRID_MAX_ROW_NUMBER
+#1.11.79 Minor fix in the internal classes
+#1.11.80 Added new API events: core:onAfterFormRecordDelete, onAfterFrontEndLogin
+#1.11.81 Minor fix in the Settings API
+#1.11.82 Minor fix in the Configuration Tool
+#1.11.83 Minor update in the API
+#1.11.84 Minor update in the API
+#1.11.85 Minor update in the API
+#1.11.86 Minor fix in the core classes
+#1.11.87 Minor update in the core classes
+#1.11.88 Minor fix in the core classes
+#1.11.89 Minor improvement in the error handling
+#1.11.90 Fixed the image uploader widget in Windows Chrome
+#1.11.91 Minor fix in the Grid widget
+#1.11.92 Updated LemonStand service URLs
+#1.11.93 Added support for MySQLi driver
+#1.11.94 Minor update in the MySQLi driver
+#1.11.95 Minor update in the core classes
+#1.11.96 Minor update in the core classes
+#1.11.97 Update in the MySQLi driver support

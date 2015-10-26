@@ -1,0 +1,59 @@
+<? Phpr_View::beginBlock("head") ?>
+	<link rel="stylesheet" href="phproad/modules/db/behaviors/db_listbehavior/resources/css/list.css" type="text/css"/>
+<? Phpr_View::endBlock() ?>
+
+<? Phpr_View::beginBlock("view") ?>
+	<ul class="breadcrumbs">
+		<li><a href="<?= $this->config_url() ?>">Home</a></li>
+		<li><?= $this->app_page_title ?></li>
+	</ul>
+
+	<div class="form500">
+		<p>This page displays lists of successful and unsuccessful login attempts to the LemonStand Configuration Tool.</p>
+		
+		<h3>Successful logins</h3>
+
+		<table class="simpleList">
+			<thead>
+				<tr>
+					<th>Date and Time</th>
+					<th class="last">IP Address</th>
+				</tr>
+			</thead>
+			<tbody>
+				<? foreach ($log as $login_info): ?>
+					<tr class="<?= zebra('successful_login') ?>">
+						<td><?= Phpr_Date::display($login_info->time, '%x %X') ?></td>
+						<td class="last"><?= $login_info->ip ?></td>
+					</tr>
+				<? endforeach ?>
+			</tbody>
+		</table>
+		
+		<h3 class="offsetTop">Failed login attempts</h3>
+		
+		<table class="simpleList">
+			<thead>
+				<tr>
+					<th>Date and Time</th>
+					<th>IP Address</th>
+					<th class="last">Login</th>
+				</tr>
+			</thead>
+			<tbody>
+				<? foreach ($unsuccessful_log as $login_info): ?>
+					<tr class="<?= zebra('unsuccessful_login') ?>">
+						<td><?= Phpr_Date::display($login_info->time, '%x %X') ?></td>
+						<td><?= $login_info->ip ?></td>
+						<td class="last"><?= strlen($login_info->user) ? h($login_info->user) : h('<not specified>') ?></td>
+					</tr>
+				<? endforeach ?>
+				<? if (!$unsuccessful_log): ?>
+					<tr class="noData">
+						<td colspan="3" class="last">No records found</td>
+					</tr>
+				<? endif ?>
+			</tbody>
+		</table>
+	</div>
+<? Phpr_View::endBlock() ?>

@@ -1,0 +1,53 @@
+<? Phpr_View::beginBlock("head") ?>
+	<link rel="stylesheet" href="modules/core/resources/css/core.css?<?= module_build('core') ?>" type="text/css"/>
+<? Phpr_View::endBlock() ?>
+
+<? Phpr_View::beginBlock("view") ?>
+	<?= flash() ?>
+
+	<div class="license-agreement">
+		<div class="hint">
+			<p class="last">
+				The LemonStand End User License Agreement has changed. Please read it. You must accept the terms of this Agreement before continuing to use the Software.
+			</p>
+		</div>
+
+		<p class="agreement-content"><?= nl2br(h($content)) ?></p>
+		
+		<?= Phpr_Form::openTag(array('id'=>'form_element')) ?>
+			<div class="form">
+				<div class="form_page">
+					<ul class="formElements">
+						<li class="field checkbox full">
+							<label for="agree">I agree with all the Terms of the License Agreement</label>
+
+							<div class="fieldContainer">
+								<input type="checkbox" class="checkbox" value="1" name="agree" id="agree">
+							</div>
+
+							<div class="clear"></div>
+						</li>
+					</ul>
+					<div class="clear"></div>
+				</div>
+			</div>
+			
+			<?= backend_ajax_button(
+				'Continue', 
+				'index_onContinue', 
+				array(), "
+					loadIndicator: {show: false}, 
+					onBeforePost: LightLoadingIndicator.show.pass('Loading...'), 
+					onComplete: LightLoadingIndicator.hide,
+					onFailure: popupAjaxError,
+					preCheckFunction: function(){ 
+						if (!$('agree').checked) {
+							alert('You must agree to the License Agreement to continue.');
+							return false;
+						} 
+						return true;
+					}
+			") ?>
+		</form>
+	</div>
+<? Phpr_View::endBlock() ?>

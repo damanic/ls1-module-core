@@ -1,0 +1,50 @@
+<? Phpr_View::beginBlock("view") ?>
+	<ul class="breadcrumbs">
+		<li><a href="<?= $this->config_url() ?>">Home</a></li>
+		<li><?= $this->app_page_title ?></li>
+	</ul>
+
+	<div class="form400">
+		<p>On this page you can restore the encryption key for this LemonStand installation. Please enter your Configuration password in the form below and click the Restore button.</p>
+		
+		<?= Phpr_Form::openTag() ?>
+		<div class="form">
+			<!--[if IE]><fieldset class="ie_fix"><![endif]-->
+				<div class="formFlash"></div>
+				<!--[if IE]></fieldset><![endif]-->
+
+				<div class="tabs">
+					<ul class="tabs_tabs">
+						<li class="round active"><a href="#tab_1" onclick="return false">Restore</a>
+							<div class="lt"></div>
+							<div class="rt"></div>
+						</li>
+					</ul>
+					<div class="clear tab_separator"></div>
+
+					<ul class="tabs_pages">
+						<li id="tab_1" class="form_page">
+							<ul class="formElements">
+								<li class="field text full">
+									<label for="password">Password <span class="required">*</span></label>
+
+									<div class="fieldContainer">
+										<input autocomplete="off" type="password" name="password" id="password" class="varchar" value=""/>
+									</div>
+
+									<div class="clear"></div>
+								</li>
+							</ul>
+							<div class="clear"></div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="clear"></div>
+			<?= backend_ajax_button('Restore', 'restore_key_onRestore', array()) ?>
+			<?= backend_button('Close', $this->config_url()) ?>
+
+			<div class="clear"></div>
+		</form>
+	</div>
+<? Phpr_View::endBlock() ?>

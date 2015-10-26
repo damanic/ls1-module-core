@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title><?= strlen($this->app_page_title) ? $this->app_page_title.' | ' : null ?> LemonStand</title>
+		<? $this->renderLayout(PATH_APP.'/modules/backend/layouts/config_urls.htm') ?>
+		<link rel="stylesheet" href="modules/backend/resources/css/backend.css" type="text/css"/>
+		<link rel="stylesheet" href="phproad/resources/css/phproad.css" type="text/css"/>
+		<?= Phpr_View::includeJavaScript() ?>
+		<script type="text/javascript" src="phproad/javascript/jquery.js"></script>
+		<script type="text/javascript">jQuery.noConflict();</script>
+
+		<?= $this->loadResources() ?>
+		<link rel="stylesheet" href="phproad/modules/db/behaviors/db_formbehavior/resources/css/forms.css" type="text/css"/>
+		<script type="text/javascript" src="modules/backend/resources/javascript/backend.js"></script>
+		<?= Phpr_View::block("head") ?>
+	</head>
+	<body class="<?= $this->viewDataElement('body_class') ?>">
+		<? $this->renderLayout('header') ?>
+
+		<div id="content">
+			<!--[if IE]><fieldset class="ie_fix"><![endif]-->
+			<?= Phpr_View::block("view") ?>
+			<!--[if IE]></fieldset><![endif]-->
+		</div>
+		
+		<? $this->renderLayout('footer') ?>
+	</body>
+</html>

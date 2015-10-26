@@ -1,0 +1,47 @@
+<?= flash() ?>
+<ul class="imageItemList offsetTop">
+	<li <?= click_link($this->config_url().'/mysql') ?>>
+		<div>
+			<img alt="Statistics" src="modules/core/resources/images/tools.png"/>
+			<h3><a href="<?= $this->config_url().'/mysql' ?>">MySQL Connection Settings</a></h3>
+			<p>Configure MySQL host, username and password.</p>
+			<div class="clear"></div>
+		</div>
+	</li>
+
+	<li <?= click_link($this->config_url().'/config_security') ?>>
+		<div>
+			<img alt="Statistics" src="modules/core/resources/images/edit_profile.png"/>
+			<h3><a href="<?= $this->config_url().'/config_security' ?>/">Configuration Tool Security</a></h3>
+			<p>Set the Configuration Tool user name and password.</p>
+			<div class="clear"></div>
+		</div>
+	</li>
+
+	<li <?= click_link($this->config_url().'/encryption') ?>>
+		<div>
+			<img alt="Statistics" src="modules/core/resources/images/security.png"/>
+			<h3><a href="<?= $this->config_url().'/encryption' ?>/">Encryption Settings</a></h3>
+			<p>Set encryption key.</p>
+			<div class="clear"></div>
+		</div>
+	</li>
+
+	<li <?= click_link($this->config_url().'/restore_key') ?>>
+		<div>
+			<img alt="Statistics" src="modules/core/resources/images/key.png"/>
+			<h3><a href="<?= $this->config_url().'/restore_key' ?>/">Restore Encryption Key</a></h3>
+			<p>Restore your lost encryption key.</p>
+			<div class="clear"></div>
+		</div>
+	</li>
+
+	<li <?= click_link($this->config_url().'/access_log') ?>>
+		<div>
+			<img alt="Statistics" src="modules/core/resources/images/full_page.png"/>
+			<h3><a href="<?= $this->config_url().'/access_log' ?>/">Configuration Tool Access Log</a></h3>
+			<p>View a list of successful and unsuccessful Configuration Tool login attempts.</p>
+			<div class="clear"></div>
+		</div>
+	</li>
+</ul>

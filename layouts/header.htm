@@ -1,0 +1,21 @@
+<div id="header" class="no_menu">
+	<div class="container">
+		<img class="lemonStandLogo" src="modules/backend/resources/images/header_logo.png" alt="LemonStand"/>
+		
+		<div class="header_separator"></div>
+		
+		<p class="page_name">
+			LemonStand - <?= h($this->app_page_title) ?>
+		</p>
+		<ul class="user_controls">
+			<li class="last">
+				<? if (count($log) > 1): ?>
+					Last login: <?= Phpr_Date::display($log[1]->time, '%x %X') ?> from <?= $log[1]->ip ?> | 
+				<? endif ?>
+
+				<a href="<?= $this->config_url().'/logout' ?>">Logout</a>
+			</li>
+		</ul>
+		<div class="clear"></div>
+	</div>
+</div>

@@ -1,0 +1,29 @@
+<? Phpr_View::beginBlock("head") ?>
+<? Phpr_View::endBlock() ?>
+
+<? Phpr_View::beginBlock("view") ?>
+	<?= flash() ?>
+
+	<? if (!isset($fatalError)): ?>
+		<ul class="breadcrumbs">
+			<li>
+				<? if ($is_personal): ?>
+					<a href="<?= url('/system/mysettings') ?>">My Settings</a>
+				<? else: ?>
+					<a href="<?= url('/system/settings') ?>">Settings</a>
+				<? endif ?>
+			</li>
+			<li><?= $this->app_page_title ?></li>
+		</ul>
+	
+		<div class="<?= $form_width ?>">
+			<?= Phpr_Form::openTag() ?>
+				<? $this->formRender($form_model) ?>
+
+				<?= backend_ajax_button('Save', 'edit_onSave', array('class'=>'default'), "prepareFunction: function(){phprTriggerSave();}") ?>
+				<?= backend_button('Cancel', $is_personal ? url('system/mysettings') : url('system/settings')) ?>
+				<div class="clear"></div>
+			</form>
+		</div>
+	<? endif ?>
+<? Phpr_View::endBlock() ?>
