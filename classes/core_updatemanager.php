@@ -100,9 +100,22 @@
 				$result[$module_id] = $build;
 			}
 
-			return $result;
+			$result = Backend::$events->fire_event(array('name' => 'core:onAfterGetModuleVersions', 'type' => 'filter'), array(
+				'modules' => $result,
+			));
+
+			return $result['modules'];
 		}
-		
+
+		protected function get_blocked_update_modules(){
+			$ignored = Phpr::$config->get('DISABLE_MODULES', array());
+			$ignored = Backend::$events->fire_event(array('name' => 'core:onGetBlockedUpdateModules', 'type' => 'filter'), array(
+				'modules' => $ignored,
+			));
+			traceLog( $ignored['modules']);
+			return $ignored['modules'];
+		}
+
 		protected function get_hash()
 		{
 			$hash = Db_ModuleParameters::get('core', 'hash');
@@ -124,7 +137,7 @@
 			$fields = array(
 				'versions'=>serialize($this->get_module_versions()),
 				'url'=>$url,
-				'disabled'=>serialize(Phpr::$config->get('DISABLE_MODULES', array()))
+				'disabled'=>serialize($this->get_blocked_update_modules())
 			);
 
 			$response = $this->request_server_data('get_update_list/'.$hash, $fields, $force);
@@ -134,7 +147,11 @@
 			if (!count($response['data']))
 				Db_ModuleParameters::set('backend', 'ls_updates_available', 0);
 
-			return $response;
+			$response = Backend::$events->fire_event(array('name' => 'core:onAfterRequestUpdateList', 'type' => 'filter'), array(
+				'update_list' => $response,
+			));
+
+			return $response['update_list'];
 		}
 		
 		public function update_application($cli_mode = false, $force = false)
@@ -150,14 +167,14 @@
 				$update_list = $update_data['data'];
 				$fields = array(
 					'modules'=>serialize(array_keys($update_list)),
-					'disabled'=>serialize(Phpr::$config->get('DISABLE_MODULES', array()))
+					'disabled'=>serialize($this->get_blocked_update_modules())
 				);
 			} else
 			{
 				$versions = $this->get_module_versions();
 				$fields = array(
 					'modules'=>serialize(array_keys($versions)),
-					'disabled'=>serialize(Phpr::$config->get('DISABLE_MODULES', array()))
+					'disabled'=>serialize($this->get_blocked_update_modules())
 				);
 			}
 			

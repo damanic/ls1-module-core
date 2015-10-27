@@ -457,3 +457,4 @@
 #1.11.95 Minor update in the core classes
 #1.11.96 Minor update in the core classes
 #1.11.97 Update in the MySQLi driver support
+#1.12.0 Start community updates (github:damanic). Added events to update manager 'core:onAfterGetModuleVersions', 'core:onGetBlockedUpdateModules', 'core:onAfterRequestUpdateList'
