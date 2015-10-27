@@ -8,7 +8,20 @@
 		public static $_chmod_error = false;
 		
 		protected static $_initialized = false;
-		
+
+		public static function findFile($file, $archivePath){
+			self::initZip();
+			$archive = new PclZip($archivePath);
+
+			foreach($archive->listContent() as $key => $file_info){
+				if(strstr($file_info['filename'],$file)){
+					return $file_info;
+				}
+
+			}
+			return false;
+		}
+
 		public static function zipFile($file, $archivePath)
 		{
 			self::initZip();
@@ -66,7 +79,7 @@
 		 * images/* - will exclude all folders and files from images directory
 		 * images/[files] - file exclude all files from images directory and its subdirectories
 		 */
-		public static function zipDirectory($path, $archivePath, $exceptions = array(), $archive = null)
+		public static function zipDirectory($path, $archivePath, $exceptions = array(), $archive = null, $add_path = null)
 		{
 			self::initZip();
 			chdir($path);
@@ -86,7 +99,7 @@
 				if ( $entry == '.' || $entry == '..' )
 					continue;
 
-				$archive->add($entry, PCLZIP_CB_PRE_ADD, 'zip_helper_pre_add');
+				$archive->add($entry, PCLZIP_CB_PRE_ADD, 'zip_helper_pre_add',PCLZIP_OPT_ADD_PATH, $add_path);
 			}
 
 			$d->close();
