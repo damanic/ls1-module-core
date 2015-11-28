@@ -124,7 +124,7 @@
 			
 			foreach ($items as $id=>$item) 
 			{
-				$section = array_key_exists('section', $item) ? $item['section'] : $misc_title;
+				$section = is_array($item) && array_key_exists('section', $item) ? $item['section'] : $misc_title;
 				if (!array_key_exists($section, $result_grouped))
 					$result_grouped[$section] = array();
 					

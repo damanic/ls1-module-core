@@ -460,3 +460,4 @@
 #1.12.0 Start community updates (github:damanic). Added events to update manager 'core:onAfterGetModuleVersions', 'core:onGetBlockedUpdateModules', 'core:onAfterRequestUpdateList'
 #1.12.1 Minor update to Core_UpdateManager: Added event core:onFetchSoftwareUpdateFiles. Updated PclZip to 2.8.2
 #1.12.2 Added the force parameter to update request events.
+#1.12.3 Minor fix in core_modulemanager. This resolves damanic/ls1-module-updatecenter#1
