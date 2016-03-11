@@ -7,7 +7,7 @@ class Core_Cron{
 			'record_code' => $code,
 			'now' => Phpr_DateTime::now()->toSqlDateTime()
 		);
-		Db_DbHelper::query('insert into core_cron_table (record_code, updated_at) values (:record_code, now()) on duplicate key update updated_at =:now', $bind);
+		Db_DbHelper::query('insert into core_cron_table (record_code, updated_at) values (:record_code, :now) on duplicate key update updated_at =:now', $bind);
 	}
 
 	public static function get_interval($code)
@@ -50,7 +50,7 @@ class Core_Cron{
 			'param_data' => serialize($param_data),
 			'now' => Phpr_DateTime::now()->toSqlDateTime()
 		);
-		Db_DbHelper::query('insert into core_cron_jobs (handler_name, param_data, created_at) values (:handler_name, :param_data, now())', $bind);
+		Db_DbHelper::query('insert into core_cron_jobs (handler_name, param_data, created_at) values (:handler_name, :param_data, :now)', $bind);
 	}
 
 	private static function execute_cronjobs()
@@ -81,6 +81,7 @@ class Core_Cron{
 
 	private static function execute_crontabs()
 	{
+
 		$modules = Core_ModuleManager::listModules();
 		foreach ($modules as $module)
 		{
@@ -99,12 +100,14 @@ class Core_Cron{
 				if (!isset($options['interval']) || !isset($options['method']))
 					continue;
 
+
 				$last_exec = Phpr_DateTime::parse(self::get_interval($code), Phpr_DateTime::universalDateTimeFormat);
 				$next_exec = $last_exec->addMinutes($options['interval']);
 				$can_execute = Phpr_DateTime::now()->compare($next_exec);
 
 				if ($can_execute == -1)
 					continue;
+
 
 				try
 				{

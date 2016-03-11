@@ -462,3 +462,4 @@
 #1.12.2 Added the force parameter to update request events.
 #1.12.3 Minor fix in core_modulemanager. This resolves damanic/ls1-module-updatecenter#1
 #1.13.0|@1.13.0 Added subscribe to crontab and add to cronjob support
+#1.13.1 Bug Fix: sql now() being compared to localised PHP datetime causing cron timing issues.
