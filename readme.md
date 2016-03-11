@@ -6,7 +6,7 @@ This updated module can be installed using the updatecenter module: https://gith
 - 1.12.0 Start community updates (github:damanic). Added events to update manager 'core:onAfterGetModuleVersions', 'core:onGetBlockedUpdateModules', 'core:onAfterRequestUpdateList'
 - 1.12.1 Minor update to Core_UpdateManager: Added event core:onFetchSoftwareUpdateFiles. Updated PclZip to 2.8.2
 - 1.12.2 Added the force parameter to update request events.
-- 1.2.0 Added subscribe to crontab and add to cronjob support
+- 1.13.0 Added subscribe to crontab and add to cronjob support
 
 ###New Cron Features
 ####Execute cron as a standalone
