@@ -41,6 +41,9 @@ class xCustom_Module{
 ```
 
 ####Add a job to a que so that it is processed in the background cron job process without delaying the currently executing script.
-Anywhere in your code you can que a task and it will be executed as soon as possible. Example:
+Anywhere in your code you can que a task and it will be executed as soon as possible. 
+
+Example:
+
 `Core_Cron::queue_job('xCustom_Module::background_task',array($param1, $param2 ));`
 
