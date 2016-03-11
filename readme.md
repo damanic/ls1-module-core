@@ -34,7 +34,7 @@ class xCustom_Module{
 		traceLog('I've been hit by cron interval');
 	}
 	
-	public function background_task($param1,$param2){
+	public static function background_task($param1,$param2){
 		traceLog('I've been hit by cron job');
 	}
 }
