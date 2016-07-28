@@ -67,7 +67,9 @@ foreach($salts as $name => $salt) {
 	  $template .= "if (!isset(\$CONFIG['".$name."']))\n\t\$CONFIG['".$name."'] = '".$salt."';\n\n";
 	}
 
-writeFile($key_file, $template);
+if(!writeFile($key_file, $template)){
+	throw new Phpr_ApplicationException('Could not create new security keys in /config folder. Make this folder writable by PHP and try again.');
+}
 
 foreach($update_files as $file){
 	if(!copy(PATH_APP.$framework_update_dir.$file, PATH_APP.$file)){
