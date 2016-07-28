@@ -7,12 +7,6 @@ $update_files = array(
 	'/phproad/system/initialize.php',
 );
 
-foreach($update_files as $file){
-	if(!copy(PATH_APP.$framework_update_dir.$file, PATH_APP.$file)){
-		throw new Phpr_ApplicationException('Could not copy '.$framework_update_dir.$file.' to '.$file.' check write permissions for PHP');
-	}
-}
-
 Core_ZipHelper::unzip(PATH_APP.'/phproad/thirdpart/', PATH_APP.$framework_update_dir.'/phproad/thirdpart/random_compat.zip');
 
 
@@ -74,3 +68,9 @@ foreach($salts as $name => $salt) {
 	}
 
 writeFile($key_file, $template);
+
+foreach($update_files as $file){
+	if(!copy(PATH_APP.$framework_update_dir.$file, PATH_APP.$file)){
+		throw new Phpr_ApplicationException('Could not copy '.$framework_update_dir.$file.' to '.$file.' check write permissions for PHP');
+	}
+}
