@@ -261,50 +261,7 @@
 		 */
 		public static function processJavaScriptRequest()
 		{
-			if ( !isset($_GET['phpr_js']) )
-				return;
-
-			// Sanitize the requested resource name
-			//
-			if ( !preg_match("/^([a-zA-Z0-9_\.]*\.js|defaults|\|)*/", $_GET['phpr_js']) )
-				die;
-
-			// Prepare the result string
-			//
-			$result = null;
-
-			foreach ( explode( "|", $_GET['phpr_js'] ) as $file )
-			{
-
-				$files = ($file == "defaults") ? self::$defaultJsScripts : array($file);
-
-				foreach ( $files as $file )
-				{
-					$file_parts = pathinfo($file);
-					if($file_parts['extension'] == 'js') {
-						$filePath = PATH_SYSTEM . "/javascript/" . $file_parts['basename'];
-						if ( file_exists( $filePath ) ) {
-							$result .= file_get_contents( $filePath );
-						}
-					}
-				}
-			}
-
-			// Prepare the output buffering with compressing
-			//
-			if ( function_exists('ob_gzhandler') && !!ini_get('zlib.output_compression') )
-				ob_start("ob_gzhandler");
-
-			// Output the headers
-			//
-			header("Content-type: text/javascript; charset: UTF-8");
-			header("Vary: Accept-Encoding");
-
-			// Output the result string
-			//
-			echo $result;
-
-			die;
+			throw new Phpr_SystemException('Phpr_Response::processJavaScriptRequest() is depreciated.');
 		}
 	}
 
