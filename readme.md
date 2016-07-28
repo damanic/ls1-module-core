@@ -7,6 +7,9 @@ This updated module can be installed using the updatecenter module: https://gith
 - 1.12.1 Minor update to Core_UpdateManager: Added event core:onFetchSoftwareUpdateFiles. Updated PclZip to 2.8.2
 - 1.12.2 Added the force parameter to update request events.
 - 1.13.0 Added subscribe to crontab and add to cronjob support
+- 1.13.1 Minor Bug Fix: sql now() being compared to localised PHP datetime causing cron timing issues.
+- 1.13.2 Plugs Major Security Hole
+- 1.13.3 Evocode Security Patch. Must read http://evocode.com/blog/lemonstand-v1-vulnerability/
 
 ###New Cron Features
 ####Execute cron as a standalone
