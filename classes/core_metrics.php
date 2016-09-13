@@ -42,7 +42,7 @@
 					@curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 					@curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 					@curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-					@curl_setopt($ch, CURLOPT_HTTPHEADER, array('LS_STATS: 1'));
+					@curl_setopt($ch, CURLOPT_HTTPHEADER, array('LS_STATS: 1', 'LS-STATS: 1'));
 					@curl_setopt($ch, CURLOPT_TIMEOUT, 30); 
 					@curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5); 
 

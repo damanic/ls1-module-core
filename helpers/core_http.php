@@ -112,7 +112,7 @@
 			if (isset($_SERVER['HTTP_COOKIE']))
 				@curl_setopt($ch, CURLOPT_COOKIE, $_SERVER['HTTP_COOKIE']);
 
-			@curl_setopt($ch, CURLOPT_HTTPHEADER, array('LS_SUBQUERY: 1'));
+			@curl_setopt($ch, CURLOPT_HTTPHEADER, array('LS_SUBQUERY: 1', 'LS-SUBQUERY: 1'));
 
 			@session_write_close();
 
