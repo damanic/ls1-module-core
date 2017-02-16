@@ -1,6 +1,6 @@
 <?php
 /**
- * Execute cron as a standalone
+ * Execute all cron tasks as a standalone
  *
  * Example usage:
  *   /usr/local/bin/php -q /home/YOUR_USERNAME/public_html/modules/core/cron.php

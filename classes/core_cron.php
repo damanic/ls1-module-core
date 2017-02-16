@@ -1,11 +1,11 @@
 <?php
 class Core_Cron{
 
-	public static function update_interval($code)
+	public static function update_interval($code, $now=null)
 	{
 		$bind = array(
 			'record_code' => $code,
-			'now' => Phpr_DateTime::now()->toSqlDateTime()
+			'now' => $now ? $now : Phpr_DateTime::now()->toSqlDateTime()
 		);
 		Db_DbHelper::query('insert into core_cron_table (record_code, updated_at) values (:record_code, :now) on duplicate key update updated_at =:now', $bind);
 	}
@@ -53,7 +53,7 @@ class Core_Cron{
 		Db_DbHelper::query('insert into core_cron_jobs (handler_name, param_data, created_at) values (:handler_name, :param_data, :now)', $bind);
 	}
 
-	private static function execute_cronjobs()
+	public static function execute_cronjobs()
 	{
 		// Worker can perform only 5 jobs per run
 		//
@@ -79,7 +79,7 @@ class Core_Cron{
 		}
 	}
 
-	private static function execute_crontabs()
+	public static function execute_crontabs()
 	{
 
 		$modules = Core_ModuleManager::listModules();
@@ -101,19 +101,23 @@ class Core_Cron{
 					continue;
 
 
+				$now = Phpr_DateTime::now();
 				$last_exec = Phpr_DateTime::parse(self::get_interval($code), Phpr_DateTime::universalDateTimeFormat);
 				$next_exec = $last_exec->addMinutes($options['interval']);
-				$can_execute = Phpr_DateTime::now()->compare($next_exec);
+				$can_execute = $now->compare($next_exec);
 
 				if ($can_execute == -1)
 					continue;
 
-
 				try
 				{
+					self::update_interval( $code );//set last run to now to help prevent repeat triggers on long tasks
 					$method = $options['method'];
-					if ($module->$method())
-						self::update_interval( $code );
+					if ($module->$method()){
+						self::update_interval( $code ); //time of completion
+					} else {
+						self::update_interval( $code, $last_exec ); //not run, revert to last completed time
+					}
 
 				}
 				catch (Exception $ex)
