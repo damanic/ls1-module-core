@@ -467,3 +467,4 @@
 #1.13.3|@1_13_3_framework_update Evocode Security Patch. Must read http://evocode.com/blog/lemonstand-v1-vulnerability/
 #1.13.4 Bug Fix: CURLOPT_HTTPHEADER set with underscores caused issue on some stacks
 #1.13.5 Improved crontab, prevent tasks overlapping if the task runs for longer than cron interval
+#1.13.6 Fire event added to execute_crontabs() `core:on_execute_cron_exception`

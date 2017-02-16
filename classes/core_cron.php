@@ -124,6 +124,7 @@ class Core_Cron{
 				{
 					echo "Error in cron: " . $code . PHP_EOL;
 					echo $ex->getMessage();
+					Phpr::$events->fire_event('core:on_execute_cron_exception',$ex);
 				}
 			}
 		}
