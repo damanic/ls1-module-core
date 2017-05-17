@@ -1,4 +1,5 @@
 #Core Module
+
 ###Lemonstand Version 1
 This updated module can be installed using the updatecenter module: https://github.com/damanic/ls1-module-updatecenter
 
@@ -10,6 +11,10 @@ This updated module can be installed using the updatecenter module: https://gith
 - 1.13.1 Minor Bug Fix: sql now() being compared to localised PHP datetime causing cron timing issues.
 - 1.13.2 Plugs Major Security Hole
 - 1.13.3 Evocode Security Patch. Must read http://evocode.com/blog/lemonstand-v1-vulnerability/
+- 1.13.4 Bug Fix: CURLOPT_HTTPHEADER set with underscores caused issue on some stacks
+- 1.13.5 Improved crontab, prevent tasks overlapping if the task runs for longer than cron interval
+- 1.13.6 Fire event added to execute_crontabs() `core:on_execute_cron_exception`
+- 1.13.7 Added new fire event type 'update_result', behaves similar to type 'filter' (see: Phpr_Events::fire_event())
 
 ###New Cron Features
 ####Execute cron as a standalone
