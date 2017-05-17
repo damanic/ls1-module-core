@@ -467,4 +467,5 @@
 #1.13.3|@1_13_3_framework_update Evocode Security Patch. Must read http://evocode.com/blog/lemonstand-v1-vulnerability/
 #1.13.4 Bug Fix: CURLOPT_HTTPHEADER set with underscores caused issue on some stacks
 #1.13.5 Improved crontab, prevent tasks overlapping if the task runs for longer than cron interval
-#1.13.6 Fire event added to execute_crontabs() `core:on_execute_cron_exception`
+#1.13.6 Fire event add ed to execute_crontabs() `core:on_execute_cron_exception`
+#1.13.7|@1_13_7_framework_update Added new fire event type 'update_result', behaves similar to type 'filter' (see: Phpr_Events::fire_event())
