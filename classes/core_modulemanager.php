@@ -98,6 +98,33 @@
 
 			return $result;
 		}
+
+		public static function listSettingsItemsPermissible($user,$group_by_sections = false){
+
+			if($user->belongsToGroups(Users_Groups::admin)){
+				return self::listSettingsItems($group_by_sections);
+			}
+
+			$items = self::listSettingsItems(false);
+			$permissible_items = array();
+			foreach($items as $item){
+
+				$permission_access = isset($item['access_permission']) ? $item['access_permission'] : false;
+				if($permission_access){
+					$permission_info = explode(':', $permission_access);
+					$cnt = count($permission_info);
+					if ($cnt == 2){
+						if ($user->get_permission($permission_info[0], $permission_info[1])) {
+							$permissible_items[] = $item;
+						}
+					}
+				}
+			}
+			if ($group_by_sections)
+				return self::groupSettingsItems($permissible_items);
+
+			return $permissible_items;
+		}
 		
 		protected static function listModuleSettingsForm($module, $global)
 		{
