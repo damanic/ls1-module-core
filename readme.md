@@ -18,6 +18,8 @@ This updated module can be installed using the updatecenter module: https://gith
 - 1.13.8 Updates mootools (fix: JSON.stringify.parse)
 - 1.13.9 Cron Jobs can be re-inserted into the que when attempt fails (see Core_Cron::que_job())
 - 1.13.10 Minor framework update for form file uploader
+- 1.13.11 Minor fix
+- 1.13.12 Support system settings display by user permission not just admin status.  See function: listSettingsItemsPermissible()
 
 ### New Cron Features
 #### Execute cron as a standalone

@@ -474,3 +474,4 @@
 #1.13.10|@1_13_10_framework_update Minor framework update for form file uploader
 #1.13.11|@1_13_11_framework_update Fixes version.dat issues from last framework update
 #1.13.12 Support system settings display by user permission not just admin status.  See function: listSettingsItemsPermissible()
+#1.13.13|@1_13_13_framework_update Minor framework update for list behavior. Adds $list_ignore_native_controller
