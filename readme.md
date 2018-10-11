@@ -21,7 +21,7 @@ This updated module can be installed using the updatecenter module: https://gith
 - 1.13.11 Minor fix
 - 1.13.12 Support system settings display by user permission not just admin status.  See function: listSettingsItemsPermissible()
 - 1.13.13 Minor framework update for list behaviour. Adds $list_ignore_native_controller
-- 1.13.14  Minor framework update for dropdown fields.  Allow custom css classes on dropdowns. Eg. $this->add_form_field()->renderAs(frm_dropdown)->cssClassName('my-custom-classname')
+- 1.13.14 Minor framework update for dropdown fields.  Allow custom css classes on dropdowns. Eg. `$this->add_form_field()->renderAs(frm_dropdown)->cssClassName('my-custom-classname')`
 
 
 ### New Cron Features
