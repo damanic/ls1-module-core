@@ -1,0 +1,30 @@
+<? 
+	$options = $this->formFieldGetOptions($form_field->dbName, $this->viewData['form_model']); 
+	$dbName = $this->formGetFieldDbName($form_field->dbName, $this->viewData['form_model']);
+?>
+
+<select autocomplete="off" <? if ($form_field->disabled) echo 'disabled="disabled"' ?> id="<?= $this->formGetElementId($form_model_class.'_'.$dbName) ?>" name="<?= $form_model_class ?>[<?= $dbName ?>]" class="<?= $form_field->cssClassName ?>">
+	<? if ($form_field->emptyOption !== null): ?>
+		<option value=""><?= h($form_field->emptyOption) ?></option>
+	<? endif ?>
+	
+	<? 
+		$fieldName = $form_field->dbName;
+		foreach ($options as $value=>$name): 
+			$level = 0;
+			if (is_array($name))
+			{
+				if (!array_key_exists('level', $name))
+				{
+					$keys = array_keys($name);
+					$name = !count($keys) ? $value : $keys[0];
+				} else
+				{
+					$level = $name['level'];
+					$name = $name[0];
+				}
+			}
+	?>
+		<option <?= Phpr_Form::optionState( $value, $form_model->$dbName ) ?> value="<?= h($value) ?>"><?= str_repeat('&nbsp;&nbsp;&nbsp;', $level) ?><?= $form_field->optionsHtmlEncode ? h($name) : $name ?></option>
+	<? endforeach ?>
+</select>
