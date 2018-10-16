@@ -6,7 +6,7 @@
 		{
 			$request = Net_Request::create(self::get_endpoint_url());
 
-			$request->set_timeout(10);
+			$request->set_timeout(5);
 			$request->disable_redirects();
 			$response = $request->send();
 			$last_accepted_version = Db_ModuleParameters::get('core', 'laeav');
