@@ -21,9 +21,9 @@
 			return self::$instance;
 		}
 
-		protected function request_server_data($url, $fields = array(), $force = false)
+		protected function request_server_data($url, $fields = array(), $force = false, $time_limit=3600)
 		{
-			if (!$force && Phpr::$config->get('FREEZE_UPDATES'))
+			if (!$force && (Phpr::$config->get('FREEZE_UPDATES') || Phpr::$config->get('FREEZE_LS_UPDATES')))
 				throw new Exception("We are sorry, updates were blocked by the system administrator.");
 			
 			$uc_url = Phpr::$config->get('UPDATE_CENTER');
@@ -47,9 +47,9 @@
 				$ch = curl_init(); 
 				curl_setopt($ch, CURLOPT_URL, 'http://'.$uc_url.'/'.$url);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-				curl_setopt($ch, CURLOPT_TIMEOUT, 3600);
+				curl_setopt($ch, CURLOPT_TIMEOUT, $time_limit);
 				curl_setopt($ch, CURLOPT_POSTFIELDS, $poststring);
-				curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+				curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
 
 
 				$result = curl_exec($ch);
@@ -125,11 +125,11 @@
 			return $framework->decrypt(base64_decode($hash));
 		}
 
-		public function request_lemonstand_update_list($hash = null, $force = false){
+		public function request_lemonstand_update_list($hash = null, $force = false, $time_limit=15){
 
-			if (!$force && Phpr::$config->get('FREEZE_UPDATES'))
-				throw new Exception("We are sorry, updates were blocked by the system administrator.");
-
+			if (!$force && (Phpr::$config->get('FREEZE_UPDATES') || Phpr::$config->get('FREEZE_LS_UPDATES'))){
+				throw new Exception( "We are sorry, updates were blocked by the system administrator." );
+			}
 			$hash = $hash ? $hash : $this->get_hash();
 			$url = base64_encode(root_url('/', true, 'http'));
 
@@ -139,7 +139,8 @@
 				'disabled'=>serialize($this->get_blocked_update_modules())
 			);
 
-			$response = $this->request_server_data('get_update_list/'.$hash, $fields, $force);
+			$response = $this->request_server_data('get_update_list/'.$hash, $fields, $force, $time_limit);
+
 			if (!isset($response['data']))
 				throw new Phpr_ApplicationException('Invalid server response.');
 
@@ -154,7 +155,11 @@
 			if (Phpr::$config->get('FREEZE_UPDATES'))
 				throw new Exception("We are sorry, updates were blocked by the system administrator.");
 
-			$response = $this->request_lemonstand_update_list($hash, $force);
+			try {
+				$response = $this->request_lemonstand_update_list( $hash, $force, $time_limit = 10 );
+			} catch(Exception $e){
+				$response = array();
+			}
 
 			$response = Backend::$events->fire_event(array('name' => 'core:onAfterRequestUpdateList', 'type' => 'filter'), array(
 				'update_list' => $response,
@@ -174,60 +179,71 @@
 			if (!is_writable(PATH_APP.'/temp') || !is_writable(PATH_APP.'/modules') || !is_writable(PATH_APP.'/phproad'))
 				throw new Exception('An install directory in '.PATH_APP.' (/temp , /modules, /phproad) is not writable for PHP.');
 
-			if(!$force){
-				$update_list = $this->request_lemonstand_update_list();
-				$versions = $update_list['data'];
-			} else {
-				$versions = $this->get_module_versions();
+			try {
+				if ( !$force ) {
+					$update_list = $this->request_lemonstand_update_list();
+					$versions    = $update_list['data'];
+				} else {
+					$versions = $this->get_module_versions();
+				}
+			} catch (Exception $e){
+				//LS server down
 			}
 
-			if(array($versions)){
-				//do lemonstand update downloads
-				$fields = array(
-					'modules'=>serialize(array_keys($versions)),
-					'disabled'=>serialize($this->get_blocked_update_modules())
-				);
+			try {
 
-				$hash = $this->get_hash();
-				$result = $this->request_server_data('get_update_hashes/'.$hash, $fields);
-				$file_hashes = $result['data'];
+				if ( array( $versions ) ) {
+					//do lemonstand update downloads
+					$fields = array(
+						'modules'  => serialize( array_keys( $versions ) ),
+						'disabled' => serialize( $this->get_blocked_update_modules() )
+					);
 
-				if (!is_array($file_hashes))
-					throw new Exception("Invalid server response");
+					$hash        = $this->get_hash();
+					$result      = $this->request_server_data( 'get_update_hashes/' . $hash, $fields );
+					$file_hashes = $result['data'];
 
-				$tmp_path = PATH_APP.'/temp';
-				if (!is_writable($tmp_path))
-					throw new Exception("Cannot create temporary file. Path is not writable: $tmp_path");
-
-				$ls_files = array();
-				try {
-					foreach ( $file_hashes as $code => $file_hash ) {
-						$tmp_file = $tmp_path . '/' . $code . '.arc';
-						$result   = $this->request_server_data( 'get_update_file/' . $hash . '/' . $code );
-
-						$tmp_save_result = false;
-						try {
-							$tmp_save_result = @file_put_contents( $tmp_file, $result['data'] );
-						} catch ( Exception $ex ) {
-							throw new Exception( "Error creating temporary file in " . $tmp_path );
-						}
-
-						$ls_files[] = $tmp_file;
-
-						if ( !$tmp_save_result ) {
-							throw new Exception( "Error creating temporary file in " . $tmp_path );
-						}
-
-						$downloaded_hash = md5_file( $tmp_file );
-						if ( $downloaded_hash != $file_hash ) {
-							throw new Exception( "Downloaded archive is corrupted. Please try again." );
-						}
+					if ( !is_array( $file_hashes ) ) {
+						throw new Exception( "Invalid server response" );
 					}
-					} catch (Exception $ex){
-						$this->update_cleanup($ls_files);
+
+					$tmp_path = PATH_APP . '/temp';
+					if ( !is_writable( $tmp_path ) ) {
+						throw new Exception( "Cannot create temporary file. Path is not writable: $tmp_path" );
+					}
+
+					$ls_files = array();
+					try {
+						foreach ( $file_hashes as $code => $file_hash ) {
+							$tmp_file = $tmp_path . '/' . $code . '.arc';
+							$result   = $this->request_server_data( 'get_update_file/' . $hash . '/' . $code );
+
+							$tmp_save_result = false;
+							try {
+								$tmp_save_result = @file_put_contents( $tmp_file, $result['data'] );
+							} catch ( Exception $ex ) {
+								throw new Exception( "Error creating temporary file in " . $tmp_path );
+							}
+
+							$ls_files[] = $tmp_file;
+
+							if ( !$tmp_save_result ) {
+								throw new Exception( "Error creating temporary file in " . $tmp_path );
+							}
+
+							$downloaded_hash = md5_file( $tmp_file );
+							if ( $downloaded_hash != $file_hash ) {
+								throw new Exception( "Downloaded archive is corrupted. Please try again." );
+							}
+						}
+					} catch ( Exception $ex ) {
+						$this->update_cleanup( $ls_files );
 						throw $ex;
 					}
 				}
+			} catch (Exception $e){
+				//ls server likely unreachable/blocked
+			}
 
 			//allow for other modules to provide updates
 			$files = Backend::$events->fire_event(array('name' => 'core:onFetchSoftwareUpdateFiles', 'type' => 'filter'), array(
@@ -297,7 +313,7 @@
 				{
 					try
 					{
-						$update_data = Core_UpdateManager::create()->request_lemonstand_update_list();
+						$update_data = Core_UpdateManager::create()->request_lemonstand_update_list(null,false,5);
 						$updates = $update_data['data'];
 						
 						Db_ModuleParameters::set('backend', 'ls_updates_available', count($updates));
