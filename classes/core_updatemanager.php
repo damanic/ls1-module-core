@@ -23,8 +23,12 @@
 
 		protected function request_server_data($url, $fields = array(), $force = false, $time_limit=3600)
 		{
-			if (!$force && (Phpr::$config->get('FREEZE_UPDATES') || Phpr::$config->get('FREEZE_LS_UPDATES')))
-				throw new Exception("We are sorry, updates were blocked by the system administrator.");
+			if (!$force && Phpr::$config->get('FREEZE_UPDATES'))
+				throw new Exception("We are sorry, all updates have been blocked by the system administrator.");
+
+			if(Phpr::$config->get('FREEZE_LS_UPDATES')){
+				throw new Exception("Updates from Lemonstands update servers have been blocked by the system administrator.");
+			}
 			
 			$uc_url = Phpr::$config->get('UPDATE_CENTER');
 			if (!strlen($uc_url))
@@ -192,7 +196,7 @@
 
 			try {
 
-				if ( array( $versions ) ) {
+				if ( array( $versions ) && !Phpr::$config->get('FREEZE_LS_UPDATES',false)) {
 					//do lemonstand update downloads
 					$fields = array(
 						'modules'  => serialize( array_keys( $versions ) ),
