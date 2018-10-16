@@ -8,6 +8,7 @@
 		const allowed_license_change_num = 3;
 
 		protected static $instance = null;
+		protected $server_responsive = null;
 		
 		protected function __construct()
 		{
@@ -21,6 +22,28 @@
 			return self::$instance;
 		}
 
+		protected function is_server_responsive($wait=5){
+			if(!empty($this->server_responsive)){
+				return $this->server_responsive;
+			}
+
+			$uc_url = Phpr::$config->get('UPDATE_CENTER');
+			if (!strlen($uc_url))
+				throw new Exception('LemonStand eCommerce Inc. server URL is not specified in the configuration file.');
+
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, 'http://'.$uc_url.'/');
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_TIMEOUT, $wait);
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $wait);
+
+			$result = curl_exec($ch);
+			curl_close($ch);
+
+			$this->server_responsive =  $result ? true : false;
+			return $this->server_responsive;
+		}
+
 		protected function request_server_data($url, $fields = array(), $force = false, $time_limit=3600)
 		{
 			if (!$force && Phpr::$config->get('FREEZE_UPDATES'))
@@ -29,65 +52,74 @@
 			if(Phpr::$config->get('FREEZE_LS_UPDATES')){
 				throw new Exception("Updates from Lemonstands update servers have been blocked by the system administrator.");
 			}
-			
-			$uc_url = Phpr::$config->get('UPDATE_CENTER');
-			if (!strlen($uc_url))
-				throw new Exception('LemonStand eCommerce Inc. server URL is not specified in the configuration file.');
-				
-			Backend::$events->fireEvent('core:onBeforeSoftwareUpdateRequest');
+
+			if(!$this->is_server_responsive()) {
+				throw new Exception("Lemonstands update servers are not responding.");
+			}
+
+			$uc_url = Phpr::$config->get( 'UPDATE_CENTER' );
+			if ( !strlen( $uc_url ) ) {
+				throw new Exception( 'LemonStand eCommerce Inc. server URL is not specified in the configuration file.' );
+			}
+
+			Backend::$events->fireEvent( 'core:onBeforeSoftwareUpdateRequest' );
 
 			$result = null;
-			try
-			{
+			try {
 				$poststring = array();
 
-				foreach($fields as $key=>$val) {
+				foreach ( $fields as $key => $val ) {
 					$poststring[] = urlencode( $key ) . "=" . urlencode( $val );
 				}
 
-				$poststring = implode('&', $poststring);
-
-				
-				$ch = curl_init(); 
-				curl_setopt($ch, CURLOPT_URL, 'http://'.$uc_url.'/'.$url);
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-				curl_setopt($ch, CURLOPT_TIMEOUT, $time_limit);
-				curl_setopt($ch, CURLOPT_POSTFIELDS, $poststring);
-				curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+				$poststring = implode( '&', $poststring );
 
 
-				$result = curl_exec($ch);
-				
-				if (curl_errno($ch))
+				$ch = curl_init();
+				curl_setopt( $ch, CURLOPT_URL, 'http://' . $uc_url . '/' . $url );
+				curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+				curl_setopt( $ch, CURLOPT_TIMEOUT, $time_limit );
+				curl_setopt( $ch, CURLOPT_POSTFIELDS, $poststring );
+				curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5 );
+
+
+				$result = curl_exec( $ch );
+
+				if ( curl_errno( $ch ) ) {
 					throw new Phpr_ApplicationException( "Error connecting the update server." );
-				else
-					curl_close($ch);
+				} else {
+					curl_close( $ch );
+				}
 
-			} catch (Exception $ex) {}
-
-			if (!$result || !strlen($result))
-				throw new Exception("Error connecting to the LemonStand eCommerce Inc. server.");
-
-			$result_data = false;
-			try
-			{
-				$result_data = @unserialize($result);
-				
-			} catch (Exception $ex) {
-				throw new Exception("Invalid response from the LemonStand eCommerce Inc. server.");
+			} catch ( Exception $ex ) {
 			}
 
-			if ($result_data === false)
-				throw new Exception("Invalid response from the LemonStand eCommerce Inc. server.");
+			if ( !$result || !strlen( $result ) ) {
+				throw new Exception( "Error connecting to the LemonStand eCommerce Inc. server." );
+			}
 
-			if ($result_data['error'])
-				throw new Exception($result_data['error']);
-				
-			Backend::$events->fireEvent('core:onAfterSoftwareUpdateRequest', $result_data);
+			$result_data = false;
+			try {
+				$result_data = @unserialize( $result );
 
+			} catch ( Exception $ex ) {
+				throw new Exception( "Invalid response from the LemonStand eCommerce Inc. server." );
+			}
+
+			if ( $result_data === false ) {
+				throw new Exception( "Invalid response from the LemonStand eCommerce Inc. server." );
+			}
+
+			if ( $result_data['error'] ) {
+				throw new Exception( $result_data['error'] );
+			}
+
+			Backend::$events->fireEvent( 'core:onAfterSoftwareUpdateRequest', $result_data );
 
 
 			return $result_data;
+
+
 		}
 		
 		protected function get_module_versions()
