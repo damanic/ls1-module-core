@@ -9,9 +9,12 @@
 			$request->set_timeout(10);
 			$request->disable_redirects();
 			$response = $request->send();
+			$last_accepted_version = Db_ModuleParameters::get('core', 'laeav');
 
-			if ($response->status_code != 200)
-				throw new Phpr_ApplicationException('Error requesting End User License Agreement updates.');
+			if ($response->status_code != 200){
+				return true; //if server down assume agreement still ok.
+			}
+
 
 			$pos = strpos($response->data, '|');
 			if ($pos === false)
@@ -20,7 +23,6 @@
 			$version = substr($response->data, 0, $pos);
 			$content = substr($response->data, $pos+1);
 
-			$last_accepted_version = Db_ModuleParameters::get('core', 'laeav');
 			if ($last_accepted_version < $version)
 			{
 				Db_ModuleParameters::set('core', 'lei', array('v'=>$version, 'c'=>$content));
