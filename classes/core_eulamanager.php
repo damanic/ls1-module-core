@@ -12,7 +12,7 @@
 			$last_accepted_version = Db_ModuleParameters::get('core', 'laeav');
 
 			if ($response->status_code != 200){
-				return true; //if server down assume agreement still ok.
+				return false; //if server down assume no new agreements issued.
 			}
 
 
