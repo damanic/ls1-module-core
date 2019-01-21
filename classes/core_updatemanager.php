@@ -215,6 +215,7 @@
 			if (!is_writable(PATH_APP.'/temp') || !is_writable(PATH_APP.'/modules') || !is_writable(PATH_APP.'/phproad'))
 				throw new Exception('An install directory in '.PATH_APP.' (/temp , /modules, /phproad) is not writable for PHP.');
 
+			$versions = false;
 			try {
 				if ( !$force ) {
 					$update_list = $this->request_lemonstand_update_list();
@@ -226,9 +227,9 @@
 				//LS server down
 			}
 
+			$ls_files = array();
 			try {
-
-				if ( array( $versions ) && !Phpr::$config->get('FREEZE_LS_UPDATES',false)) {
+				if ( is_array( $versions ) && !Phpr::$config->get('FREEZE_LS_UPDATES',false)) {
 					//do lemonstand update downloads
 					$fields = array(
 						'modules'  => serialize( array_keys( $versions ) ),
@@ -248,7 +249,6 @@
 						throw new Exception( "Cannot create temporary file. Path is not writable: $tmp_path" );
 					}
 
-					$ls_files = array();
 					try {
 						foreach ( $file_hashes as $code => $file_hash ) {
 							$tmp_file = $tmp_path . '/' . $code . '.arc';
