@@ -479,3 +479,4 @@
 #1.13.15 Fix issue where backend actions are blocked when LS1 update/licence server is unresponsive
 #1.13.16 Skip lengthy update checks when ls1 update/licence servers are unresponsive.
 #1.13.17|@1_13_17_framework_update Resolves some PHP error/warnings on 5.6+
+#1.13.18 IPV6 support
