@@ -275,7 +275,22 @@
 
 			return $this->get_value($key);
 		}
-		
+
+		/**
+		 * Deletes value from the cache.
+		 * @documentable
+		 * @param mixed $key Specifies the item key to delete.
+		 * @return mixed Returns TRUE if deleted or false if not found.
+		 */
+		public function delete($key)
+		{
+			if (self::$disabled)
+				return false;
+
+			return $this->delete_value($key);
+		}
+
+
 		/**
 		 * Adds or updates value to the cache
 		 */
@@ -286,5 +301,11 @@
 		 * @param mixed $key The key or array of keys to fetch.
 		 */
 		abstract protected function get_value($key);
+
+		/**
+		 * Deletes value from the cache
+		 * @param mixed $key The key or array of keys to delete.
+		 */
+		abstract protected function delete_value($key);
 	}
 ?>

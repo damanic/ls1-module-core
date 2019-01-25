@@ -31,6 +31,14 @@
 		{
 			return false;
 		}
+
+		/**
+		 * Deletes value from the cache
+		 * @param mixed $key The key or array of keys to delete.
+		 */
+		protected function delete_value($key){
+			return true;
+		}
 	}
 	
 ?>

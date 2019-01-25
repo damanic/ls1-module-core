@@ -45,6 +45,14 @@
 		{
 			return apc_fetch($key);
 		}
+
+		/**
+		 * Deletes value from the cache
+		 * @param mixed $key The key or array of keys to delete.
+		 */
+		 protected function delete_value($key){
+			 return apc_delete($key);
+		 }
 	}
 
 ?>

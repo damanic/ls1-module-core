@@ -84,6 +84,23 @@
 			
 			return $result;
 		}
+
+		/**
+		 * Deletes value from the cache
+		 * @param mixed $key The key or array of keys to delete.
+		 */
+		protected function delete_value($key){
+			try
+			{
+				$key = Phpr::$request->getRootUrl().'|'.$key;
+				$result = @$this->memcache->delete($key);
+			} catch (exception $ex)
+			{
+				return false;
+			}
+
+			return $result;
+		}
 	}
 
 ?>

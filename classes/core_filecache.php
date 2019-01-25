@@ -46,8 +46,7 @@
 			if (!is_string($value) && !is_int($value))
 				$value = serialize($value);
 				
-			$key = $this->fix_key($key);
-			$dest_path = $this->dir_path.'/'.$key;
+			$dest_path = $this->get_file_path($key);
 			
 			$fp = @fopen($dest_path, 'w');
 			if (!$fp)
@@ -86,16 +85,34 @@
 				
 			return $result;
 		}
+
+		/**
+		 * Deletes value from the cache
+		 * @param mixed $key The key or array of keys to delete.
+		 */
+		protected function delete_value($key){
+			$dest_path = $this->get_file_path($key);
+			if (!file_exists($dest_path)){
+				return false;
+			}
+			@unlink($dest_path);
+			return true;
+		}
 		
 		protected function fix_key($key)
 		{
 			return str_replace('\\', '-', str_replace('/', '-', $key));
 		}
+
+		protected function get_file_path($key){
+			$key = $this->fix_key($key);
+			$dest_path = $this->dir_path.'/'.$key;
+			return $dest_path;
+		}
 		
 		protected function get_cache_value($key)
 		{
-			$key = $this->fix_key($key);
-			$dest_path = $this->dir_path.'/'.$key;
+			$dest_path = $this->get_file_path($key);
 			if (!file_exists($dest_path))
 				return false;
 				
