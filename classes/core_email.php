@@ -41,7 +41,7 @@
 			/*
 			 * Send the message
 			 */
-			require_once PATH_APP."/modules/core/thirdpart/class.phpmailer.php";
+			require_once PATH_APP."/modules/core/thirdpart/phpmailer/autoload.php";
 
 			$Mail = new PHPMailer();
 

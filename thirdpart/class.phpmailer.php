@@ -1,4 +1,10 @@
 <?php
+/*
+DEPRECATED DO NOT USE
+Use new library in thirdpart/phpmailer folder
+*/
+
+
 /*~ class.phpmailer.php
 .---------------------------------------------------------------------------.
 |  Software: PHPMailer - PHP email class                                    |
@@ -658,7 +664,7 @@ class PHPMailer {
    * @access public
    * @return bool
    */
-  function SetLanguage($lang_type = 'en', $lang_path = 'language/') {
+  function SetLanguage($lang_type = 'en', $lang_path = '/phpmailer/language/') {
     if( !(@include $lang_path.'phpmailer.lang-'.$lang_type.'.php') ) {
       $this->SetError('Could not load language file');
       return false;

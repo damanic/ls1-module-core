@@ -1,4 +1,9 @@
 <?php
+/*
+DEPRECATED DO NOT USE
+Use new library in thirdpart/phpmailer folder
+*/
+
 /*~ class.smtp.php
 .---------------------------------------------------------------------------.
 |  Software: PHPMailer - PHP email class                                    |
