@@ -482,3 +482,4 @@
 #1.13.18 IPV6 support
 #1.13.19 Update to caching API, adds method to delete cache keys
 #1.13.20|@1_13_20_framework_update Minor framework update for Db_ModuleParameters
+#1.13.21 Update for PHPMailer
