@@ -43,7 +43,7 @@ class Core_Cron{
 	//   Core_Cron::queue_job('User_Model::static_method', array('param1', 'param2', 'param3'));
 	// Executes:
 	//   User_Model::static_method('param1', 'param2', 'param3');
-	public static function queue_job($handler_name, $param_data=array(), $retry_on_fail=false)
+	public static function queue_job($handler_name, $param_data=array(), $retry_on_fail=false, $allow_duplicate = true)
 	{
 		$bind = array(
 			'handler_name' => $handler_name,
@@ -51,6 +51,14 @@ class Core_Cron{
 			'now' => Phpr_DateTime::now()->toSqlDateTime(),
 			'retry' => $retry_on_fail ? 1 : null,
 		);
+
+		if(!$allow_duplicate){
+			$exists_id = Db_DbHelper::scalar("SELECT id FROM core_cron_jobs WHERE handler_name = :handler_name AND param_data = :param_data LIMIT 1", $bind);
+			if($exists_id){
+				return; //identical job already in the que
+			}
+		}
+
 		Db_DbHelper::query('insert into core_cron_jobs (handler_name, param_data, created_at, retry) values (:handler_name, :param_data, :now, :retry)', $bind);
 	}
 
