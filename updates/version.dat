@@ -484,3 +484,4 @@
 #1.13.20|@1_13_20_framework_update Minor framework update for Db_ModuleParameters
 #1.13.21 Update for PHPMailer
 #1.13.22 New parameter to Core_Cron::queue_job, handles duplicate job detection
+#1.13.23|@1_13_23_framework_update Minor framework update adds get_query_string() function to phpr_request
