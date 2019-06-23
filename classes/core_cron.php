@@ -85,7 +85,7 @@ class Core_Cron{
 
 			if (method_exists($model_class, $method_name)){
 				$result = call_user_func_array(array($model_class, $method_name), $params);
-				if($job->retry && !$result){
+				if($job->retry && $result === false){
 					self::queue_job($job->handler_name, $params, $job->retry);
 				}
 			}
