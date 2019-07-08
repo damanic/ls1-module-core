@@ -44,7 +44,7 @@
 			require_once PATH_APP."/modules/core/thirdpart/phpmailer/autoload.php";
 
 			$Mail = new PHPMailer();
-
+			$Mail->SMTPAutoTLS = false; //TLS should be explicitly set by system settings
 			$Mail->Encoding = "8bit";
 			$Mail->CharSet = "utf-8";
 			$Mail->From = $settings->sender_email;
