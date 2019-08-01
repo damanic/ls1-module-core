@@ -1071,7 +1071,7 @@
 			// if (in_array($field, $this->datetime_fields) ||
 			// 		(isset($field_info['type']) && in_array($field_info['type'], array('datetime', 'date', 'time')))
 			// 	) 
-			if ((isset($field_info['type']) && ($field_info['type'] == 'datetime' || $field_info['type'] == 'date' || $field_info['type'] == 'time'))) 
+			if ((isset($field_info['type']) && ($field_info['type'] == 'datetime' || $field_info['type'] == 'date')))
 			{
 				$value = $this->type_cast_date($value, $field);
 			} 
@@ -1093,11 +1093,12 @@
 					case 'tinyint':
 						$value = $value;
 						break;
+					case 'time':
+						$value = $value;
+						break;
 					case 'datetime':
 					case 'date':
-					case 'time':
 						$value = $this->type_cast_date($value);
-
 						break;
 				}
 			}

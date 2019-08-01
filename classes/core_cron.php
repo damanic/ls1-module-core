@@ -12,7 +12,7 @@ class Core_Cron{
 
 	public static function get_interval($code)
 	{
-		$interval = Db_DbHelper::scalar('select updated_at from core_cron_table where record_code =:record_code', array('record_code'=>$code));
+		$interval = Db_DbHelper::scalar('select GREATEST(COALESCE(updated_at, 0),COALESCE(postpone_until, 0)) AS run_check from core_cron_table where record_code =:record_code', array('record_code'=>$code));
 		if (!$interval)
 		{
 			self::update_interval($code);
@@ -20,6 +20,16 @@ class Core_Cron{
 		}
 
 		return $interval;
+	}
+
+
+	public static function postpone_until($code, $datetime=null)
+	{
+		$bind = array(
+			'record_code' => $code,
+			'datetime' => $datetime ? $datetime : Phpr_DateTime::now()->toSqlDateTime()
+		);
+		Db_DbHelper::query('insert into core_cron_table (record_code, postpone_until) values (:record_code, :datetime) on duplicate key update postpone_until =:datetime', $bind);
 	}
 
 	public static function execute_cron()
