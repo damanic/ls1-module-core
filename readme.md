@@ -22,7 +22,16 @@ This updated module can be installed using the updatecenter module: https://gith
 - 1.13.12 Support system settings display by user permission not just admin status.  See function: listSettingsItemsPermissible()
 - 1.13.13 Minor framework update for list behaviour. Adds $list_ignore_native_controller
 - 1.13.14 Minor framework update for dropdown fields.  Allow custom css classes on dropdowns. Eg. `$this->add_form_field()->renderAs(frm_dropdown)->cssClassName('my-custom-classname')`
-
+- 1.13.15 Fix issue where backend actions are blocked when LS1 update/licence server is unresponsive
+- 1.13.16 Skip lengthy update checks when ls1 update/licence servers are unresponsive.
+- 1.13.17 Resolves some PHP error/warnings on 5.6+
+- 1.13.18 IPV6 support
+- 1.13.19 Update to caching API, adds method to delete cache keys
+- 1.13.20 Minor framework update for Db_ModuleParameters
+- 1.13.21 Update for PHPMailer
+- 1.13.22 New parameter to Core_Cron::queue_job, handles duplicate job detection
+- 1.13.23 Minor framework update adds get_query_string() function to phpr_request
+- 1.13.24 Allows cron tab processes to be postponed until a given datetime has passed
 
 ### New Cron Features
 #### Execute cron as a standalone
