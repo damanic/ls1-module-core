@@ -1,10 +1,11 @@
 <?php
-
+use \Behat\Transliterator\Transliterator as Transliterator;
 	/**
 	 * Core string helpers
 	 */
 	class Core_String
 	{
+
 		/**
 		 * Removes slash from the beginning of a specified string
 		 * and adds a slash to the end of the string.
@@ -96,6 +97,7 @@
 		
 		/**
 		 * Replaces accented characters with ASCII equivalents.
+		 * @deprecated Use {@link Core_String::transliterate() transliterate()} method instead.
 		 * @param string $string String to process.
 		 * @param boolean $remove_non_ascii Remove non-ascii characters after asciifying.
 		 * @return string Returns the processed string.
@@ -121,6 +123,20 @@
 				$result = str_replace('{tax_inc_label}', tax_incl_label(), $result);
 				
 			return $result;
+		}
+
+		/**
+		 * Converts international UTF-8 characters into ASCII equivalents.
+		 * @param string $string String to process.
+		 * @return string Returns the processed string.
+		 */
+		public static function transliterate($str){
+			if (preg_match('/[\x80-\xff]/', $str) && Transliterator::validUtf8($str)) {
+				$str = Transliterator::utf8ToAscii($str);
+			} else {
+				$str = Transliterator::unaccent($str);
+			}
+			return $str;
 		}
 	}
 
