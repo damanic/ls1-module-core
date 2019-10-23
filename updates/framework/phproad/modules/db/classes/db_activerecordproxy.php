@@ -75,9 +75,8 @@
 			 */
 			
 			if($this->has_proxiable_method($method) ){
-				$obj = $this->get_object(true);
-				return $obj->$method;
-		}
+				return call_user_func_array(array($this->get_object(true), $method), $arguments);
+			}
 
 			/*
 			 * Create a heavy model object and call its method
