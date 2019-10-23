@@ -487,3 +487,4 @@
 #1.13.23|@1_13_23_framework_update Minor framework update adds get_query_string() function to phpr_request
 #1.13.24|@1_13_24_framework_update Allows cron tab processes to be postponed until a given datetime has passed
 #1.13.25|@1_13_25_framework_update Minor framework update
+#1.13.26|@1_13_26_framework_update Minor framework update

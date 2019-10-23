@@ -5,7 +5,8 @@
 		private $model_class;
 		private $fields = array();
 		private $key;
-		private $obj;
+		private $light_obj;
+		private $heavy_obj;
 
 		protected static $proxiable_methods = array();
 		
@@ -70,25 +71,52 @@
 			}
 			
 			/*
-			 * Create the model object and call its method
+			 * Create a light model object and call its method
 			 */
 			
-			return call_user_func_array(array($this->get_object(), $method), $arguments);
+			if($this->has_proxiable_method($method) ){
+				$obj = $this->get_object(true);
+				return $obj->$method;
+		}
+
+			/*
+			 * Create a heavy model object and call its method
+			 */
+			return call_user_func_array(array($this->get_object(false), $method), $arguments);
 		}
 
 		public function get_proxied_model_class(){
 			return $this->model_class;
 		}
-		
-		protected function get_object()
-		{
-			if ($this->obj)
-				return $this->obj;
 
+		protected function has_proxiable_method($method){
 			$class = $this->model_class;
-			
-			$obj = new $class();
-			return $obj->find($this->key);
+			if(class_exists($class)) {
+				if ( property_exists( $class, 'proxiable_methods' ) && is_array( $class::$proxiable_methods ) ) {
+					$proxiable_methods = $class::$proxiable_methods;
+					if(in_array($method,$proxiable_methods)){
+						$proxiable = method_exists( $this->model_class, $method );
+						return $proxiable;
+					}
+				}
+			}
+			return false;
+		}
+
+		protected function get_object($light=false) {
+			if($light && $this->light_obj){
+				return $this->light_obj;
+			}
+			if (!$light && $this->heavy_obj){
+				return $this->heavy_obj;
+			}
+
+			$obj = new $this->model_class($this->fields);
+
+			if($light){
+				return $this->light_obj = $obj;
+			}
+			return $this->heavy_obj = $obj->find($this->key);
 		}
 	}
 ?>

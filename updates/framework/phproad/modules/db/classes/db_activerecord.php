@@ -109,6 +109,12 @@
 		 */
 		public $belongs_to;
 		
+		/**
+		 * @var array Contains a list of methods that can be accessed directly via Db_ActiveRecordProxy
+		 * @documentable
+		 */
+		public static $proxiable_methods = array();
+
 		protected $added_relations = array();
 		
 		/**
@@ -471,6 +477,22 @@
 			return $this->find_all_internal($id, $include, $form_context);
 		}
 
+		/**
+		 * Finds a record by its primary key value, and returns as a proxy data model
+		 * @documentable
+		 * @param integer $id Specifies the primary key value.
+		 * @return Db_ActiverecordProxy Returns a model object corresponding to the found record or NULL.
+		 */
+		public function find_proxy($record_id){
+			$this->where('id = ?', $record_id);
+			$result = Db_DbHelper::queryArray( $this->build_sql() );
+			if ( $result ) {
+				$data = $result[0];
+				return new Db_ActiverecordProxy( $data['id'], get_class($this), $data );
+			}
+			return null;
+		}
+
 		protected function find_all_internal($id = null, $include = array(), $form_context = null)
 		{
 			//if (!Cms_Controller::get_instance())
@@ -535,6 +557,23 @@
 			else if (!$result)
 			 	$result = new Db_DataCollection();
 
+			return $result;
+		}
+
+		/**
+		 * Finds all records and returns the {@link Db_DataCollection} object, containing a list of proxy data models.
+		 * @documentable
+		 * @see Db_DataCollection
+		 * @return Db_DataCollection Returns a collection of Db_ActiverecordProxy data models.
+		 */
+		public function find_all_proxy(){
+			$data = $this->fetchAll($this->build_sql());
+			$result = new Db_DataCollection();
+			$result->parent = $this;
+			foreach($data as $row) {
+				$data = $row;
+				$result[] = new Db_ActiverecordProxy( $row['id'], get_class($this), $row );
+			}
 			return $result;
 		}
 
