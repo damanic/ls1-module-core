@@ -463,28 +463,28 @@
 #1.12.3 Minor fix in core_modulemanager. This resolves damanic/ls1-module-updatecenter#1
 #1.13.0|@1.13.0 Added subscribe to crontab and add to cronjob support
 #1.13.1 Bug Fix: sql now() being compared to localised PHP datetime causing cron timing issues.
-#1.13.2|@1_13_2_framework_update Security fix
-#1.13.3|@1_13_3_framework_update Evocode Security Patch. Must read http://evocode.com/blog/lemonstand-v1-vulnerability/
+#1.13.2 Security fix
+#1.13.3 Evocode Security Patch. Must read http://evocode.com/blog/lemonstand-v1-vulnerability/
 #1.13.4 Bug Fix: CURLOPT_HTTPHEADER set with underscores caused issue on some stacks
 #1.13.5 Improved crontab, prevent tasks overlapping if the task runs for longer than cron interval
 #1.13.6 Fire event add ed to execute_crontabs() (core:on_execute_cron_exception)
-#1.13.7|@1_13_7_framework_update Added new fire event type 'update_result', behaves similar to type 'filter' (see: Phpr_Events::fire_event())
-#1.13.8|@1_13_8_framework_update Fixes mootools issue missing JSON.stringify parse
+#1.13.7 Added new fire event type 'update_result', behaves similar to type 'filter' (see: Phpr_Events::fire_event())
+#1.13.8 Fixes mootools issue missing JSON.stringify parse
 #1.13.9 Cron Jobs can be re-inserted into the que when attempt fails (see Core_Cron::que_job())
-#1.13.10|@1_13_10_framework_update Minor framework update for form file uploader
-#1.13.11|@1_13_11_framework_update Fixes version.dat issues from last framework update
+#1.13.10 Minor framework update for form file uploader
+#1.13.11 Fixes version.dat issues from last framework update
 #1.13.12 Support system settings display by user permission not just admin status.  See function: listSettingsItemsPermissible()
-#1.13.13|@1_13_13_framework_update Minor framework update for list behavior. Adds $list_ignore_native_controller
-#1.13.14|@1_13_14_framework_update Allow custom css classes on dropdowns. Eg. $this->add_form_field()->renderAs(frm_dropdown)->cssClassName('custom')
+#1.13.13 Minor framework update for list behavior. Adds $list_ignore_native_controller
+#1.13.14 Allow custom css classes on dropdowns. Eg. $this->add_form_field()->renderAs(frm_dropdown)->cssClassName('custom')
 #1.13.15 Fix issue where backend actions are blocked when LS1 update/licence server is unresponsive
 #1.13.16 Skip lengthy update checks when ls1 update/licence servers are unresponsive.
-#1.13.17|@1_13_17_framework_update Resolves some PHP error/warnings on 5.6+
+#1.13.17 Resolves some PHP error/warnings on 5.6+
 #1.13.18 IPV6 support
 #1.13.19 Update to caching API, adds method to delete cache keys
-#1.13.20|@1_13_20_framework_update Minor framework update for Db_ModuleParameters
+#1.13.20 Minor framework update for Db_ModuleParameters
 #1.13.21 Update for PHPMailer
 #1.13.22 New parameter to Core_Cron::queue_job, handles duplicate job detection
-#1.13.23|@1_13_23_framework_update Minor framework update adds get_query_string() function to phpr_request
-#1.13.24|@1_13_24_framework_update Allows cron tab processes to be postponed until a given datetime has passed
-#1.13.25|@1_13_25_framework_update Minor framework update
-#1.13.26|@1_13_26_framework_update Minor framework update
+#1.13.23 Minor framework update adds get_query_string() function to phpr_request
+#1.13.24 Allows cron tab processes to be postponed until a given datetime has passed
+#1.13.25 Minor framework update
+#1.13.26 Minor framework update

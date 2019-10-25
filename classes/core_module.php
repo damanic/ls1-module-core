@@ -20,6 +20,7 @@
 		public function subscribeEvents()
 		{
 			Backend::$events->addEvent('onLogin', $this, 'onUserLogin');
+			Backend::$events->addEvent('core:onAfterSoftwareUpdate', $this, 'onAfterSoftwareUpdate');
 		}
 		
 		public function onUserLogin()
@@ -27,6 +28,15 @@
 			$handler_path = PATH_APP.'/handlers/login.php';
 			if (file_exists($handler_path))
 				include $handler_path;
+		}
+
+		public function onAfterSoftwareUpdate(){
+			$framework_update = PATH_APP.'/modules/core/updates/framework_update.zip';
+			$framework_folder = PATH_APP.'/phproad/';
+			if (file_exists($framework_update)){
+				Core_ZipHelper::unzip($framework_folder, $framework_update, $update_file_permissions = true);
+				unlink($framework_update);
+			}
 		}
 		
 		/**
