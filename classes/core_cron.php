@@ -326,7 +326,7 @@ class Core_Cron{
 		$time_limit = self::$execute_cron_time_limit_seconds;
 		$safe_allowance = 0.8;
 
-		if(!is_numeric($start_time) || !is_numeric($time_limit)){
+		if(!is_numeric($start_time) || !is_numeric($time_limit) || $time_limit == 0){
 			return true;
 		}
 		$safe_limit = round($time_limit * $safe_allowance);
