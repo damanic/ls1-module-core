@@ -260,7 +260,7 @@ class Core_Cron{
 				}
 
 				//no further processing required for this job -> delete
-				Db_DbHelper::query( 'DELETE FROM core_cron_jobs WHERE id=:id', $bind );
+				self::delete_job_version($job);
 			}
 		}
 	}
@@ -386,11 +386,18 @@ class Core_Cron{
 	public static function _on_job_shutdown($job){
 
 		if($job && $job->id) {
+			$bind = array(
+				'id' => $job->id,
+				'version' => $job->version
+			);
+			$error          = error_get_last();
 			$job_processing = Db_DbHelper::scalar( 'SELECT id FROM core_cron_jobs 
 													WHERE started_at IS NOT NULL
-													AND id = ?', $job->id );
-			if($job_processing == $job->id){
-				$error          = error_get_last();
+													AND id = :id
+													AND version = :version', $bind);
+
+			//Take action if job is still locked on version
+			if($job_processing && ($job_processing == $job->id)){
 
 				//max execution limits can end up here if script limit is lower than global
 				if($error && isset($error['message'])){
@@ -401,19 +408,22 @@ class Core_Cron{
 				}
 
 				//all other shutdowns are considered fatal, unrecoverable
-				Db_DbHelper::query('DELETE FROM core_cron_jobs WHERE id = ?', $job->id);
-				if(self::$tracelog_events){
-					$error_message = isset($error['message']) ? $error['message'] : 'fatal error';
-					traceLog('Cronjob shutdown on ['.$job->handler_name.'] : '. $error_message);
-				}
-				Backend::$events->fire_event( 'core:on_cronjob_shutdown', $job, $error );
+				self::delete_job_version($job);
 			}
+
+			//notify
+			if(self::$tracelog_events){
+				$error_message = isset($error['message']) ? $error['message'] : 'fatal error';
+				traceLog('Cronjob shutdown on ['.$job->handler_name.'] : '. $error_message);
+			}
+			Backend::$events->fire_event( 'core:on_cronjob_shutdown', $job, $error );
+
 		}
 	}
 
 	protected static function handle_timeout_cronjob($job){
 		if($job->attempts >= self::$cronjob_timeout_retries) {
-			Db_DbHelper::query( 'DELETE FROM core_cron_jobs WHERE id = ?', $job->id );
+			self::delete_job_version($job);
 		} else {
 			Db_DbHelper::query('UPDATE core_cron_jobs SET started_at = NULL WHERE id = ?', $job->id); //allow retry
 		}
@@ -421,6 +431,14 @@ class Core_Cron{
 			traceLog('Cronjob timeout on ['.$job->handler_name.']');
 		}
 		Backend::$events->fire_event( 'core:on_cronjob_exceeded_max_duration', $job );
+	}
+
+	protected static function delete_job_version($job){
+		$bind = array(
+			'id' => $job->id,
+			'version' => $job->version
+		);
+		Db_DbHelper::query('DELETE FROM core_cron_jobs WHERE id = :id AND version = :version', $bind);
 	}
 
 
