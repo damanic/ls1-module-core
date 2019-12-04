@@ -233,7 +233,7 @@ class Core_Cron{
 			$can_process = ($db->row_count() == 1) ? true : false; //if successful we have the job
 
 			if($can_process){
-
+				$job->version++;
 				$result = false;
 
 				try {
@@ -386,11 +386,13 @@ class Core_Cron{
 	public static function _on_job_shutdown($job){
 
 		if($job && $job->id) {
+			$error = error_get_last();
+			if ( $error ) {
+
 			$bind = array(
 				'id' => $job->id,
 				'version' => $job->version
 			);
-			$error          = error_get_last();
 			$job_processing = Db_DbHelper::scalar( 'SELECT id FROM core_cron_jobs 
 													WHERE started_at IS NOT NULL
 													AND id = :id
@@ -414,10 +416,11 @@ class Core_Cron{
 			//notify
 			if(self::$tracelog_events){
 				$error_message = isset($error['message']) ? $error['message'] : 'fatal error';
-				traceLog('Cronjob shutdown on ['.$job->handler_name.'] : '. $error_message);
+					traceLog( 'Cronjob shutdown on [' . $job->handler_name . '] [' . memory_get_usage() . '] : ' . $error_message );
+					traceLog( $error );
 			}
 			Backend::$events->fire_event( 'core:on_cronjob_shutdown', $job, $error );
-
+			}
 		}
 	}
 
