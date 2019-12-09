@@ -234,22 +234,16 @@ class Core_Cron{
 
 			if($can_process){
 				$job->version++;
-				$result = false;
+				$result = null;
+				$retry = $job->retry;
 
 				try {
 					$executable = self::get_job_executable($job);
 					if ( $executable  ) {
 						register_shutdown_function(array('Core_Cron', '_on_job_shutdown'), $job);
 						$result = call_user_func_array( array( $executable['class'], $executable['method'] ), $executable['params'] );
-							if ( $job->retry && $result === false ) {
-								//send job to back of que, try again later
-								$processing_sql = "UPDATE core_cron_jobs 
-											       SET started_at=NULL 
-											       WHERE id = :id";
-								Db_DbHelper::query( $processing_sql, $bind );
-								continue;
-							}
 					} else {
+						$retry = false; //not executable no point retrying
 						throw new Phpr_ApplicationException('Cron Job is not executable');
 					}
 				} catch ( Exception $ex ) {
@@ -257,6 +251,15 @@ class Core_Cron{
 						traceLog('Cronjob Exception ['.$job->handler_name.'] - '. $ex->getMessage());
 					}
 					Backend::$events->fire_event( 'core:on_execute_cronjob_exception', $ex, $job );
+				}
+
+				if ( $retry && $result === false ) {
+					//send job to back of que, try again later
+					$processing_sql = "UPDATE core_cron_jobs 
+											       SET started_at=NULL 
+											       WHERE id = :id";
+					Db_DbHelper::query( $processing_sql, $bind );
+					continue;
 				}
 
 				//no further processing required for this job -> delete
