@@ -492,3 +492,5 @@
 #1.13.28 Framework Update (minor fixes)
 #1.13.29 Improved Cron handler and documentation
 #1.13.30 Framework Update (minor improvements)
+#1.13.30 Framework Update (minor improvements)
+#1.13.31 Updates pclzip for php 7
