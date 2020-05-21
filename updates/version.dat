@@ -498,3 +498,4 @@
 #1.13.33 Framework Update (minor improvement)
 #1.13.34 Framework Update (minor improvement)
 #1.13.35 Update to Security Framework (MCRYPT COMPAT)
+#1.13.36 Fixes issue with css_combine
