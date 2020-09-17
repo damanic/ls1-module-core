@@ -7,41 +7,45 @@
 		/**
 		 * Returns centimeters (cm) from inches (in)
 		 * @param float $in value in inches
-		 * @param int $precision round down to decimal places, default is 1 mm precision
+		 * @param int $precision round down to decimal places
 		 * @return float Returns centimeters (cm)
 		 */
-		public static function in_to_cm($in, $precision = 1) {
-			return round($in * 2.54, $precision);
+		public static function in_to_cm($in, $precision = null) {
+			$val = $in * 2.54;
+			return $precision === null ? $val : round($val, $precision);
 		}
 		
 		/**
 		 * Returns inches (in) from centimeters (cm)
 		 * @param float $cm in centimeters
-		 * @param int $precision round down to decimal places, default is 1 mm precision
+		 * @param int $precision round down to decimal places
 		 * @return float  Returns inches (in)
 		 */
-		public static function cm_to_in($cm, $precision = 7) {
-			return round($cm / 2.54, $precision);
+		public static function cm_to_in($cm, $precision = null) {
+			$val = $cm / 2.54;
+			return $precision === null ? $val : round($val, $precision);
 		}
 		
 		/**
 		 * Returns kilograms (kg) from pounds (lb)
 		 * @param float $lb in pounds
-		 * @param int $precision round down to decimal places, default precision down to 1 gram
+		 * @param int $precision round down to decimal places
 		 * @return float Returns kilograms (kg)
 		 */
-		public static function lb_to_kg($lb, $precision = 3) {
-			return round($lb * 0.45359237, $precision);
+		public static function lb_to_kg($lb, $precision = null) {
+			$val = $lb * 0.45359237;
+			return $precision === null ? $val : round($val, $precision);
 		}
 		
 		/**
 		 * Returns pounds (lb) from kilograms (kg)
 		 * @param float $kg in kilograms
-		 * @param int $precision round down to decimal places, default precision down to 1 gram
+		 * @param int $precision round down to decimal places
 		 * @return float Returns pounds (lb)
 		 */
-		public static function kg_to_lb($kg, $precision = 8) {
-			return round($kg / 0.45359237, $precision);
+		public static function kg_to_lb($kg, $precision = null) {
+			$val =$kg / 0.45359237;
+			return $precision === null ? $val : round($val, $precision);
 		}
 		
 		/**
