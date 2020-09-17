@@ -6,37 +6,41 @@
 	class Core_Number {
 		/**
 		 * Returns centimeters (cm) from inches (in)
-		 * @param number $cm number
-		 * @return number Returns centimeters (cm)
+		 * @param float $in value in inches
+		 * @param int $precision round down to decimal places, default is 1 mm precision
+		 * @return float Returns centimeters (cm)
 		 */
-		public static function in_to_cm($in, $precision = 2) {
+		public static function in_to_cm($in, $precision = 1) {
 			return round($in * 2.54, $precision);
 		}
 		
 		/**
 		 * Returns inches (in) from centimeters (cm)
-		 * @param mixed $in number
-		 * @return number Returns inches (in)
+		 * @param float $cm in centimeters
+		 * @param int $precision round down to decimal places, default is 1 mm precision
+		 * @return float  Returns inches (in)
 		 */
-		public static function cm_to_in($cm, $precision = 2) {
+		public static function cm_to_in($cm, $precision = 7) {
 			return round($cm / 2.54, $precision);
 		}
 		
 		/**
 		 * Returns kilograms (kg) from pounds (lb)
-		 * @param number $lb number
-		 * @return number Returns kilograms (kg)
+		 * @param float $lb in pounds
+		 * @param int $precision round down to decimal places, default precision down to 1 gram
+		 * @return float Returns kilograms (kg)
 		 */
-		public static function lb_to_kg($lb, $precision = 2) {
+		public static function lb_to_kg($lb, $precision = 3) {
 			return round($lb * 0.45359237, $precision);
 		}
 		
 		/**
 		 * Returns pounds (lb) from kilograms (kg)
-		 * @param number $kg number
-		 * @return number Returns pounds (lb)
+		 * @param float $kg in kilograms
+		 * @param int $precision round down to decimal places, default precision down to 1 gram
+		 * @return float Returns pounds (lb)
 		 */
-		public static function kg_to_lb($kg, $precision = 2) {
+		public static function kg_to_lb($kg, $precision = 8) {
 			return round($kg / 0.45359237, $precision);
 		}
 		
