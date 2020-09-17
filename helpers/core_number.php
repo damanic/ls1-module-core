@@ -44,7 +44,7 @@
 		 * @return float Returns pounds (lb)
 		 */
 		public static function kg_to_lb($kg, $precision = null) {
-			$val =$kg / 0.45359237;
+			$val = $kg / 0.45359237;
 			return $precision === null ? $val : round($val, $precision);
 		}
 		
