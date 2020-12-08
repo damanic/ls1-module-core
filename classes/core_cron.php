@@ -110,49 +110,61 @@ class Core_Cron{
 		self::reconcile_cronjobs();
 	}
 
-	/**
-	 * Execute CRON JOBS immediately as background process.
-	 *
-	 * This execution method may not work on your application stack.
-	 * Note: Not tested on windows servers.
-	 *
-	 * Troubleshooting:
-	 *     - Check your PHP config allows exec() or shell_exec()
-	 * 	   - Check your PHP command line context has permissions to access /modules/core/cron.php
-	 *
-	 * @documentable
-	 *
-	 * @param int $limit Set the amount of jobs to run
-	 * @param mixed $que_name Set the que name to run or NULL to run all jobs
-	 *
-	 * @return void
-	 */
-	public static function execute_cronjobs_in_background($limit=5, $que_name=null){
-		if(!is_numeric($limit)){
-			return;
-		}
-		if($que_name){
-			$has_jobs = Db_DbHelper::query('SELECT * FROM core_cron_jobs WHERE que_name = ?', $que_name);
-			if(!$has_jobs){
-				return; //there are no jobs for given que. Abort.
-			}
-		}
-		$q_param = $que_name ? ' -q'.$que_name : null;
-		$cron_file = PATH_APP.'/modules/core/cron.php -j'.$limit.$q_param.' -t0';
-		$cmd = "php $cron_file";
-		if (substr(PHP_OS, 0, 3) == 'WIN') {
-			pclose(popen("start /B ". $cmd, "r"));
-		} else {
-			$cmd .= " > /dev/null 2>/dev/null &";
-			try {
-				$Res = shell_exec($cmd);
-			}
-			catch(Exception $ex) {
-				$Res = @exec($cmd);
+	public static function execute_crontabs()
+	{
+
+		$modules = Core_ModuleManager::listModules();
+		foreach ($modules as $module)
+		{
+			if(!method_exists($module, 'subscribe_crontab'))
+				continue;
+
+			$module_id = $module->getId();
+			$cron_items = $module->subscribe_crontab();
+
+			if (!is_array($cron_items))
+				continue;
+
+			foreach ($cron_items as $code=>$options)
+			{
+				$code = $module_id . '_' . $code;
+				if (!isset($options['interval']) || !isset($options['method']))
+					continue;
+
+
+				$now = Phpr_DateTime::now();
+				$last_exec = Phpr_DateTime::parse(self::get_interval($code), Phpr_DateTime::universalDateTimeFormat);
+				$next_exec = $last_exec->addMinutes($options['interval']);
+				$can_execute = $now->compare($next_exec);
+
+				if ($can_execute == -1)
+					continue;
+
+				if(!self::cron_has_time()){
+					break;
+				}
+
+				try
+				{
+					self::update_interval( $code );//set last run to now to help prevent repeat triggers on long tasks
+					$method = $options['method'];
+					if ($module->$method()){
+						self::update_interval( $code ); //time of completion
+					} else {
+						self::update_interval( $code, $last_exec ); //not run, revert to last completed time
+					}
+
+				}
+				catch (Exception $ex)
+				{
+					if(self::$tracelog_events){
+						traceLog('Crontab exception on ['.$code.'] : '. $ex->getMessage());
+					}
+					Backend::$events->fire_event('core:on_execute_crontab_exception', $ex, $code);
+				}
 			}
 		}
 	}
-
 
 	/**
 	 * QUE A CRON JOB
@@ -311,61 +323,51 @@ class Core_Cron{
 		}
 	}
 
-	public static function execute_crontabs()
-	{
-
-		$modules = Core_ModuleManager::listModules();
-		foreach ($modules as $module)
-		{
-			if(!method_exists($module, 'subscribe_crontab'))
-				continue;
-
-			$module_id = $module->getId();
-			$cron_items = $module->subscribe_crontab();
-
-			if (!is_array($cron_items))
-				continue;
-
-			foreach ($cron_items as $code=>$options)
-			{
-				$code = $module_id . '_' . $code;
-				if (!isset($options['interval']) || !isset($options['method']))
-					continue;
-
-
-				$now = Phpr_DateTime::now();
-				$last_exec = Phpr_DateTime::parse(self::get_interval($code), Phpr_DateTime::universalDateTimeFormat);
-				$next_exec = $last_exec->addMinutes($options['interval']);
-				$can_execute = $now->compare($next_exec);
-
-				if ($can_execute == -1)
-					continue;
-
-				if(!self::cron_has_time()){
-					break;
-				}
-
-				try
-				{
-					self::update_interval( $code );//set last run to now to help prevent repeat triggers on long tasks
-					$method = $options['method'];
-					if ($module->$method()){
-						self::update_interval( $code ); //time of completion
-					} else {
-						self::update_interval( $code, $last_exec ); //not run, revert to last completed time
-					}
-
-				}
-				catch (Exception $ex)
-				{
-					if(self::$tracelog_events){
-						traceLog('Crontab exception on ['.$code.'] : '. $ex->getMessage());
-					}
-					Backend::$events->fire_event('core:on_execute_crontab_exception', $ex, $code);
-				}
+	/**
+	 * Execute CRON JOBS immediately as background process.
+	 * It does not execute CRON TABS
+	 *
+	 * This execution method may not work on your application stack.
+	 * Note: Not tested on windows servers.
+	 *
+	 * Troubleshooting:
+	 *     - Check your PHP config allows exec() or shell_exec()
+	 * 	   - Check your PHP command line context has permissions to access /modules/core/cron.php
+	 *
+	 * @documentable
+	 *
+	 * @param int $limit Set the amount of jobs to run
+	 * @param mixed $que_name Set the que name to run or NULL to run all jobs
+	 *
+	 * @return void
+	 */
+	public static function execute_cronjobs_in_background($limit=5, $que_name=null){
+		if(!is_numeric($limit)){
+			return;
+		}
+		if($que_name){
+			$has_jobs = Db_DbHelper::query('SELECT * FROM core_cron_jobs WHERE que_name = ?', $que_name);
+			if(!$has_jobs){
+				return; //there are no jobs for given que. Abort.
+			}
+		}
+		$q_param = $que_name ? ' -q'.$que_name : null;
+		$cron_file = PATH_APP.'/modules/core/cron.php -j'.$limit.$q_param.' -t0';
+		$cmd = "php $cron_file";
+		if (substr(PHP_OS, 0, 3) == 'WIN') {
+			pclose(popen("start /B ". $cmd, "r"));
+		} else {
+			$cmd .= " > /dev/null 2>/dev/null &";
+			try {
+				$Res = shell_exec($cmd);
+			}
+			catch(Exception $ex) {
+				$Res = @exec($cmd);
 			}
 		}
 	}
+
+
 
 	protected static function cron_has_time(){
 		$start_time = self::$execute_cron_start_time;
