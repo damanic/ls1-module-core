@@ -110,6 +110,49 @@ class Core_Cron{
 		self::reconcile_cronjobs();
 	}
 
+	/**
+	 * Execute CRON JOBS immediately as background process.
+	 *
+	 * This execution method may not work on your application stack.
+	 * Note: Not tested on windows servers.
+	 *
+	 * Troubleshooting:
+	 *     - Check your PHP config allows exec() or shell_exec()
+	 * 	   - Check your PHP command line context has permissions to access /modules/core/cron.php
+	 *
+	 * @documentable
+	 *
+	 * @param int $limit Set the amount of jobs to run
+	 * @param mixed $que_name Set the que name to run or NULL to run all jobs
+	 *
+	 * @return void
+	 */
+	public static function execute_cronjobs_in_background($limit=5, $que_name=null){
+		if(!is_numeric($limit)){
+			return;
+		}
+		if($que_name){
+			$has_jobs = Db_DbHelper::query('SELECT * FROM core_cron_jobs WHERE que_name = ?', $que_name);
+			if(!$has_jobs){
+				return; //there are no jobs for given que. Abort.
+			}
+		}
+		$q_param = $que_name ? ' -q'.$que_name : null;
+		$cron_file = PATH_APP.'/modules/core/cron.php -j'.$limit.$q_param.' -t0';
+		$cmd = "php $cron_file";
+		if (substr(PHP_OS, 0, 3) == 'WIN') {
+			pclose(popen("start /B ". $cmd, "r"));
+		} else {
+			$cmd .= " > /dev/null 2>/dev/null &";
+			try {
+				$Res = shell_exec($cmd);
+			}
+			catch(Exception $ex) {
+				$Res = @exec($cmd);
+			}
+		}
+	}
+
 
 	/**
 	 * QUE A CRON JOB

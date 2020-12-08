@@ -4,13 +4,48 @@
  *
  * Example usage:
  *   /usr/local/bin/php -q /home/YOUR_USERNAME/public_html/modules/core/cron.php
+ *
+ * Optional command line parameters
+ * j: job execution limit
+ * s: cron execution time limit in seconds
+ * q: job que name to execute. NULL for all, 0 for none.
+ * t: process cron tabs .  1 or 0
+ *
+ * Example usage with parameters:
+ *   /usr/local/bin/php -q /home/YOUR_USERNAME/public_html/modules/core/cron.php -j5 -s3600 -qpriority -t0
  */
 chdir(dirname(__FILE__));
 $APP_CONF = array();
 $Phpr_InitOnly = true;
 include '../../index.php';
 
-Core_Cron::execute_cron();
+//Defaults
+$process_tabs = true;
+$process_que = true;
+Core_Cron::$execute_cron_time_limit_seconds = 3600;
+
+//Command line params
+$params = getopt("j:s:q:t:");
+$job_limit = isset($params['j']) ? $params['j'] : null;
+$time_limit = isset($params['s']) ? $params['s'] : null;
+$que = isset($params['q']) ? $params['q'] : null;
+$tabs = isset($params['t']) ? $params['t'] : null;
+
+
+if(is_numeric($job_limit)) {
+	Core_Cron::$cronjob_batch_size = $job_limit;
+}
+if(is_numeric($time_limit)) {
+	Core_Cron::$execute_cron_time_limit_seconds = $time_limit;
+}
+if($tabs !== null) {
+	$process_tabs = $tabs ? true : false;
+}
+if($que !== null){
+	$process_que = $que ? $que : false;
+}
+
+Core_Cron::execute_cron($process_tabs,$process_que);
 
 
 /*
