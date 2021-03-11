@@ -1,11 +1,28 @@
 <?
-
+/**
+ * Class Core_Metrics
+ * @deprecated
+ *
+ *            This class was used by Lemonstand Inc. to compile usage data and
+ * 			  submit a report to their servers.
+ *
+ *            Communication of these metric are no longer sent to lemonstand servers
+ * 			  as they are now offline!
+ *
+ *            Database logging of these metrics has been disabled by default to improve
+ *            site performance.
+ *
+ *            You can set the config setting 'DISABLE_USAGE_STATISTICS' to true to maintain
+ *            database level logging of core metrics.
+ *
+ */
 	class Core_Metrics
 	{
 		public static function update_metrics()
 		{
-			if (Phpr::$config->get('DISABLE_USAGE_STATISTICS'))
+			if (Phpr::$config->get('DISABLE_USAGE_STATISTICS', true))
 				return;
+
 
 			try
 			{
@@ -35,20 +52,18 @@
 						'pm_usage' => serialize($payment_module_records)
 					);
 
-					$ch = curl_init('https://v1.lemonstand.com/ls_process_usage_stats/');
-
-					@curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-					@curl_setopt($ch, CURLOPT_POST, 1);
-					@curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-					@curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-					@curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-					@curl_setopt($ch, CURLOPT_HTTPHEADER, array('LS_STATS: 1', 'LS-STATS: 1'));
-					@curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-					@curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5); 
-
-					$result = @curl_exec($ch);
-
-					$success = $result == 'thanks';
+//					$ch = curl_init('https://v1.lemonstand.com/ls_process_usage_stats/');
+//					@curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//					@curl_setopt($ch, CURLOPT_POST, 1);
+//					@curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+//					@curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+//					@curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+//					@curl_setopt($ch, CURLOPT_HTTPHEADER, array('LS_STATS: 1', 'LS-STATS: 1'));
+//					@curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+//					@curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+//					$result = @curl_exec($ch);
+//					$success = $result == 'thanks';
+					$success = true;
 				} catch (exception $ex) {}
 				
 				if ($success)
@@ -62,7 +77,7 @@
 		{
 			try
 			{
-				if (Phpr::$config->get('DISABLE_USAGE_STATISTICS'))
+				if (Phpr::$config->get('DISABLE_USAGE_STATISTICS', true))
 					return;
 				
 				Db_DbHelper::query('update core_metrics set page_views = page_views+1');
@@ -73,7 +88,7 @@
 		{
 			try
 			{
-				if (Phpr::$config->get('DISABLE_USAGE_STATISTICS'))
+				if (Phpr::$config->get('DISABLE_USAGE_STATISTICS', true))
 					return;
 
 				Db_DbHelper::query(
