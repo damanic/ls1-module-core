@@ -22,7 +22,7 @@ include '../../index.php';
 //Defaults
 $process_tabs = true;
 $process_que = true;
-Core_Cron::$execute_cron_time_limit_seconds = 3600;
+Core_Cron::$execute_cron_time_limit_seconds = 4500;
 
 //Command line params
 $params = getopt("j:s:q:t:");
@@ -35,8 +35,9 @@ $tabs = isset($params['t']) ? $params['t'] : null;
 if(is_numeric($job_limit)) {
 	Core_Cron::$cronjob_batch_size = $job_limit;
 }
-if(is_numeric($time_limit)) {
+if(is_numeric($time_limit) ) {
 	Core_Cron::$execute_cron_time_limit_seconds = $time_limit;
+	@set_time_limit($time_limit);  // script limit
 }
 if($tabs !== null) {
 	$process_tabs = $tabs ? true : false;
