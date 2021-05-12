@@ -235,7 +235,16 @@ class Core_Cron{
 				AND param_data = :param_data LIMIT 1";
 			$exists_id = Db_DbHelper::scalar($check_sql, $bind);
 			if($exists_id){
-				return; //identical job already in the que
+				if($available_at){
+					//update scheduled datetime
+					$bind = array(
+						'available_at' => $available_at,
+						'exists_id' => $exists_id
+					);
+					Db_DbHelper::query("UPDATE core_cron_jobs SET available_at = :available_at WHERE id = :exists_id", $bind);
+				}
+				//identical job already in the que
+				return;
 			}
 		}
 
