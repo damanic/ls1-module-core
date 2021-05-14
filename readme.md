@@ -33,6 +33,8 @@ This updated module can be installed using the updatecenter module: https://gith
 - 1.13.23 Minor framework update adds get_query_string() function to phpr_request
 - 1.13.24 Allows cron tab processes to be postponed until a given datetime has passed
 
+More recent updates see release history: https://github.com/damanic/ls1-module-core/releases
+
 ### New Cron Features
 #### Execute cron as a standalone
 Example trigger to add to your system schedule: `/usr/local/bin/php -q /home/YOUR_USERNAME/public_html/modules/core/cron.php`

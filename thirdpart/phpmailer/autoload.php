@@ -40,10 +40,7 @@ if (version_compare(PHP_VERSION, '5.1.2', '>=')) {
 } else {
 	/**
 	 * Fall back to traditional autoload for old PHP versions
-	 * @param string $classname The name of the class to load
+	 * Included so as not to trigger a deprecated error on PHP7.2+
 	 */
-	function __autoload($classname)
-	{
-		PHPMailerAutoload($classname);
-	}
+	include('_autoload_legacy.php');
 }
