@@ -318,7 +318,7 @@
 
 			return $reports;
 		}
-		
+
 		public static function listReports()
 		{
 			$modules = self::listModules();
@@ -330,11 +330,14 @@
 				if (!is_array($module_reports))
 					throw new Phpr_SystemException('Method listReports must return an array. Please check module "'.$module_id.'".');
 
-				$reports[$module_id] = array('name'=>$module->getModuleInfo()->name, 'reports'=>$module_reports);
+				if(isset($module_reports[0]['name'])){
+					$reports[$module_id] = $module_reports;
+				} else {
+					$reports[$module_id] = array('name'=>$module->getModuleInfo()->name, 'reports'=>$module_reports);
+				}
 			}
-			
-			ksort($reports);
 
+			ksort($reports);
 			return $reports;
 		}
 		

@@ -200,9 +200,35 @@
 			return array();
 		}
 		
-		/*
-		 * Returns a list of module reports in format
-		 * array('report_id'=>'report_name')
+		/**
+		 * Return a list of module reports
+		 * @return array
+		 *
+		 * Acceptable formats:
+		 *
+		 *  array(
+		 *        'report_id_1'=>'Report 1'
+		 *        'report_id_2'=>'Report 2'
+		 * )
+		 *
+		 * OR
+		 *
+		 *  array(
+		 *		array(
+		 *			'name' => 'Report Group 1',
+		 *			'reports' => array(
+		 *        		'report_id_1'=>'Report 1'
+		 *        		'report_id_2'=>'Report 2'
+		 *			)
+		 *		),
+		 *		array(
+		 *			'name' => 'Report Group 2',
+		 *			'reports' => array(
+		 *        		'report_id_3'=>'Report 3'
+		 *        		'report_id_4'=>'Report 4'
+		 *			)
+		 *		)
+		 *	);
 		 */
 		public function listReports()
 		{
