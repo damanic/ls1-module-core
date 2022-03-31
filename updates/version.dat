@@ -516,3 +516,4 @@
 #1.13.51 Framework Update (minor improvements)
 #1.14.0 Framework Update: Requires PHP version >= 5.4
 #1.14.1 Framework Update: Requires PHP version >= 5.4
+#1.14.2 PHPMailer Update: Requires PHP version >= 5.5
