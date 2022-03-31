@@ -1,5 +1,6 @@
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer as PHPMailer;
 	/**
 	 * Sends email messages.
 	 * LemonStand uses this class for sending email notifications to customers and back-end users.
@@ -41,7 +42,6 @@
 			/*
 			 * Send the message
 			 */
-			require_once PATH_APP."/modules/core/thirdpart/phpmailer/autoload.php";
 
 			$Mail = new PHPMailer();
 			$Mail->SMTPAutoTLS = false; //TLS should be explicitly set by system settings

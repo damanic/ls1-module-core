@@ -6,7 +6,7 @@ This updated module can be installed using the updatecenter module: https://gith
 #### Updates
 See release history: https://github.com/damanic/ls1-module-core/releases
 
-### New Cron Features
+### Cron
 #### Execute cron as a standalone
 Example trigger to add to your system schedule: `/usr/local/bin/php -q /home/YOUR_USERNAME/public_html/modules/core/cron.php`
 #### Subscribe a task to the cron tab
