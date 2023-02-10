@@ -205,8 +205,15 @@
 				$module_variables = $module->listEmailVariables();
 				if (!is_array($module_variables))
 					throw new Phpr_SystemException('Method listEmailVariables must return an array. Please check module "'.$module->getId().'".');
-				
-				$variables += $module_variables;
+
+				foreach($module_variables as $sectionName => $sectionVariables){
+					if(is_array($sectionVariables)) {
+						if (isset($variables[$sectionName])) {
+							$variables[$sectionName] = array_merge($variables[$sectionName], $sectionVariables);
+						}
+						$variables[$sectionName] = $sectionVariables;
+					}
+				}
 			}
 			
 			if ($add_compound_variables)
