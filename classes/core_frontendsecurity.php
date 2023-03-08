@@ -123,6 +123,7 @@
 		{
 			$this->updateCookie($CustomerId);
 			Backend::$events->fireEvent('onFrontEndLogin');
+            $this->afterLogin($this->getUser());
 		}
 
 		public function logout($Redirect = null)
