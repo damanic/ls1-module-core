@@ -524,3 +524,4 @@
 #1.14.7 Framework Update: (minor improvements)
 #1.14.8 Framework Update: Improved table data export (backups)
 #1.14.9 Framework Update: Fixes SQL escape issue
+#1.14.10 Framework Update: Fixes SQL NULL issue
